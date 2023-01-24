@@ -1,7 +1,6 @@
-""" This is a test program
-to try out using comments
-and to try drawing in the
-Python programming language with the Arcade library
+""" This is a test program to try out using comments
+and to try drawing in the Python programming language
+with the Arcade library.
 """
 
 # Import the "arcade" library
@@ -20,10 +19,134 @@ arcade.start_render()
 # Left of 0, right of 599,
 # Top of 300, bottom of 0
 arcade.draw_lrtb_rectangle_filled(0, 599, 300, 0, arcade.csscolor.GREEN)
+
 # Drawing code goes here
+# Tree trunk
+# Center of 100, 320
+# Width of 20
+# Height of 60
+arcade.draw_rectangle_filled(100, 320, 20, 60, arcade.csscolor.BURLYWOOD)
+arcade.draw_circle_filled(100, 350, 30, arcade.csscolor.DARK_GREEN)
+
+# Draw an ellipse with a rectangle with a center of (300, 300)
+# Width of 350
+# Height of 200
+#arcade.draw_rectangle_outline(300, 300, 350, 200, arcade.csscolor.BLACK, 3)
+#arcade.draw_ellipse_outline(300, 300, 350, 200, arcade.csscolor.RED, 3)
+
+# Another tree, with a trunk and ellipse for its top
+arcade.draw_rectangle_filled(200, 320, 20, 60, arcade.csscolor.SIENNA)
+arcade.draw_ellipse_filled(200, 370, 60, 80, arcade.csscolor.DARK_GREEN)
+
+# Another tree, with a trunk and arc for its top
+# Arc centered at (300, 340) with a with of 60 and a height of 100.
+# The starting angle is 0, and ending angle is 180.
+arcade.draw_rectangle_filled(300, 320, 20, 60, arcade.csscolor.SIENNA)
+arcade.draw_arc_filled(300, 340, 60, 100, arcade.csscolor.DARK_GREEN, 0, 180)
+
+# Another tree, with its trunk and for its top, a triangle this time.
+# Triangle is made of these three points:
+# (400, 400), (370, 320), and (430, 320)
+arcade.draw_rectangle_filled(400, 320, 20, 60, arcade.csscolor.BURLYWOOD)
+arcade.draw_triangle_filled(400, 400, 370, 320, 430, 320, arcade.csscolor.DARK_GREEN )
+
+# Draw a tree using a polygon with a list of points
+arcade.draw_rectangle_filled(500, 320, 20, 60, arcade.csscolor.SIENNA)
+arcade.draw_polygon_filled(((500, 400),
+                            (480, 360),
+                            (470, 320),
+                            (530, 320),
+                            (520, 360),
+                            ),
+                           arcade.csscolor.DARK_GREEN)
+
+# Draw a sun
+arcade.draw_circle_filled(500, 550, 40, arcade.color.YELLOW)
+
+# Rays to the left, right, up, and down
+arcade.draw_line(500, 550, 400, 550, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 600, 550, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 500, 450, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 500, 650, arcade.color.YELLOW, 3)
+
+# Diagonal rays
+arcade.draw_line(500, 550, 550, 600, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 550, 500, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 450, 600, arcade.color.YELLOW, 3)
+arcade.draw_line(500, 550, 450, 500, arcade.color.YELLOW, 3)
+
+# Draw text at (150, 230) with a font size of 24 pts.
+arcade.draw_text("Arbor Day - Plant a Tree!",
+                 150, 230,
+                 arcade.color.BLUE, 24)
+
+# Uhg, this is getting confusing to try and keep track of
+# what numbers do what, and how they affect the lines.
+
+# Oh nice! this code below has names for the numbers,
+# this is much easier to read:
+arcade.draw_arc_outline(center_x=300,
+                        center_y=340,
+                        width=60,
+                        height=100,
+                        color=arcade.csscolor.BLACK,
+                        start_angle=0,
+                        end_angle=180,
+                        border_width=3,
+                        tilt_angle=45)
 
 # Finish drawing
 arcade.finish_render()
 
 # Keep the window open
 arcade.run()
+
+"""
+Chapter review questions and answers
+
+    In Python, a library of code is called what? 
+    a module, or a library. in this particular case, the Arcade library.
+
+    What do we call a line of code in Python which includes 
+    the function name, parentheses, numbers, 
+    text and everything else required perform an operation?
+    A statement.
+
+    When we call a function that is inside a library,
+    what character do we use to separate the library
+    name and the function name?
+    With a period .
+
+    According to PEP-8, should we put a space after
+    a comma that separates parameters?
+    Yes.
+
+    What function is used to open a window? 
+    Just list the function name, don’t include the library or parameters.
+    open_window()
+    for example: open_window(600, 600, "Ben's Drawing Example")
+
+    What do we call the names of the functions and parameter
+    order that make up how we interface with a library?
+    
+
+    What function name sets the background colors?
+
+    What function name must happen before you start drawing?
+
+    What function name happens after drawing?
+
+    Colors are specified using three numbers that represent what?
+
+    If a color is turned all the way OFF, what number is used?
+
+    If a color is turned all the way ON, what number is used?
+
+    A bit can hold what two numbers?
+
+    A byte is made up of how many bits?
+
+    A byte can hold how many different combinations of numbers?
+
+
+"""
