@@ -10,6 +10,33 @@ import arcade
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 
+
+def fat_tree(x, y):
+    # Draw a fat tree using a polygon with a list of points
+    arcade.draw_rectangle_filled(500 + x, 320 + y, 20, 60, arcade.csscolor.SIENNA)
+    arcade.draw_polygon_filled(((500 + x, 400 + y),
+                                (480 + x, 360 + y),
+                                (470 + x, 320 + y),
+                                (530 + x, 320 + y),
+                                (520 + x, 360 + y),
+                                ),
+                               arcade.csscolor.DARK_GREEN)
+def comfy_little_cabin(x, y):
+    # draw a cabin
+    # draw the main cabin wall center of 850, 70 width of 150 height of 60
+    arcade.draw_rectangle_filled(850 + x, 70 + y, 150, 60, arcade.color.DARK_BROWN)
+    # draw the door
+    arcade.draw_rectangle_filled(815 + x, 60 + y, 30, 40, arcade.color.BLACK)
+    # draw the window
+    arcade.draw_rectangle_filled(890 + x, 80 + y, 20, 20, arcade.color.BLACK)
+    arcade.draw_triangle_filled(750 + x, 100 + y, 850 + x, 130 + y, 950 + x, 100 + y, arcade.color.WHITE)
+    # horizontal lines for the logs
+    # (start x, start y, end x, end y)
+    arcade.draw_line(775 + x, 90 + y, 925 + x, 90 + y, arcade.color.BLACK, 1)
+    arcade.draw_line(775 + x, 80 + y, 925 + x, 80 + y, arcade.color.BLACK, 1)
+    arcade.draw_line(775 + x, 70 + y, 925 + x, 70 + y, arcade.color.BLACK, 1)
+    arcade.draw_line(775 + x, 60 + y, 925 + x, 60 + y, arcade.color.BLACK, 1)
+    arcade.draw_line(775 + x, 50 + y, 925 + x, 50 + y, arcade.color.BLACK, 1)
 def happy_little_tree(x, y):
     # tiny far away tree with three triangles
     arcade.draw_rectangle_filled(220 + x, 335 + y, 3, 30, arcade.color.DARK_BROWN)
@@ -20,8 +47,8 @@ def happy_little_tree(x, y):
 def draw_mountain(x, y):
     # Draw a mountain range in the background using a polygon with a list of points
     arcade.draw_polygon_filled(((0 + x, 0 + y), # bottom left point
-                                (100 + x, 350 + y), # peak
-                                (200 + x, 0 + y), # bottom right point
+                                (300 + x, 450 + y), # peak
+                                (600 + x, 0 + y), # bottom right point
                                 ),
                                 arcade.color.DARK_VIOLET)
 
@@ -34,7 +61,7 @@ def draw_ground():
 
 def main():
     # open a window
-    # arcade.open_window(1000, 600, "Ben's Mountain Cabin")
+    # arcade.open_window(SCREEN_WIDTH, SCREEN HEIGHT, "Ben's Mountain Cabin")
 
     # Do the math to figure out our screen dimensions
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Ben's Mountain Cabin")
@@ -47,13 +74,13 @@ def main():
 
     # make a mountain range out of functions
     # start calling dem draw_mountain functions
-    draw_mountain(50, 50)
-    draw_mountain(150, 150)
-    draw_mountain(300, 200)
-    draw_mountain(500, 100)
-    draw_mountain(700, 50)
-    draw_mountain(800, 200)
-    draw_mountain(900, 75)
+    draw_mountain(0, 50)
+    draw_mountain(50, 55)
+    draw_mountain(100, 100)
+    draw_mountain(150, 55)
+    draw_mountain(200, 50)
+    draw_mountain(250, 60)
+    draw_mountain(300, 55)
 
 
     # Draw a mountain range in the background using a polygon with a list of points
@@ -101,46 +128,68 @@ def main():
     # Another tree, with its trunk and for its top, a triangle this time.
     # Triangle is made of these three points:
     # (400, 400), (370, 320), and (430, 320)
-    arcade.draw_rectangle_filled(400, 120, 20, 60, arcade.color.DARK_BROWN)
-    arcade.draw_triangle_filled(370, 150, 400, 200, 430, 150, arcade.color.DARK_GREEN )
-
-    # tiny far away tree with three triangles
-    arcade.draw_rectangle_filled(820, 435, 3, 30, arcade.color.DARK_BROWN)
-    arcade.draw_triangle_filled(815, 445, 820, 450, 825, 445, arcade.color.DARK_GREEN )
-    arcade.draw_triangle_filled(810, 440, 820, 445, 830, 440, arcade.color.DARK_GREEN )
-    arcade.draw_triangle_filled(805, 435, 820, 440, 835, 435, arcade.color.DARK_GREEN )
-
-    # call the function to draw a tiny happy little tree far away
-    happy_little_tree(100, 90)
-    happy_little_tree(290, 130)
-
-    # Draw a tree using a polygon with a list of points
-    arcade.draw_rectangle_filled(500, 320, 20, 60, arcade.csscolor.SIENNA)
-    arcade.draw_polygon_filled(((500, 400),
-                                (480, 360),
-                                (470, 320),
-                                (530, 320),
-                                (520, 360),
-                                ),
-                               arcade.csscolor.DARK_GREEN)
+    arcade.draw_rectangle_filled(400, 70, 20, 60, arcade.color.DARK_BROWN)
+    arcade.draw_triangle_filled(370, 100, 400, 150, 430, 100, arcade.color.DARK_GREEN )
 
 
+    # call the function to draw a small forest of tiny happy little trees far away in the mountains
+    happy_little_tree(50, 30)
+    happy_little_tree(75, 50)
+    happy_little_tree(85, -60)
+    happy_little_tree(95, 70)
+    happy_little_tree(105, 30)
+    happy_little_tree(115, 50)
+    happy_little_tree(125, -60)
+    happy_little_tree(135, 30)
+    happy_little_tree(145, 80)
+    happy_little_tree(155, -90)
+    happy_little_tree(165, 30)
+    happy_little_tree(175, 70)
+    happy_little_tree(185, 60)
+    happy_little_tree(195, 30)
+    happy_little_tree(205, -40)
+    happy_little_tree(215, 30)
+    happy_little_tree(225, 40)
+    happy_little_tree(235, 30)
+    happy_little_tree(245, 60)
+    happy_little_tree(255, -70)
+    happy_little_tree(265, 30)
+    happy_little_tree(275, 90)
+    happy_little_tree(285, 60)
+    happy_little_tree(295, 100)
+    happy_little_tree(305, -50)
+    happy_little_tree(320, 30)
+    happy_little_tree(330, 50)
+    happy_little_tree(340, 60)
+    happy_little_tree(350, 30)
+    happy_little_tree(360, -60)
+    happy_little_tree(370, 50)
+    happy_little_tree(380, 30)
+    happy_little_tree(390, 70)
+    happy_little_tree(400, 80)
+    happy_little_tree(410, 90)
+    happy_little_tree(420, -30)
+    happy_little_tree(430, 70)
+    happy_little_tree(440, 60)
+    happy_little_tree(450, 30)
+    happy_little_tree(460, 40)
+    happy_little_tree(450, 30)
+    happy_little_tree(440, -30)
+    happy_little_tree(430, 20)
+    happy_little_tree(420, 10)
+    happy_little_tree(410, 0)
+    happy_little_tree(400, -10)
+    happy_little_tree(390, -20)
+    happy_little_tree(380, 30)
+    happy_little_tree(370, -40)
+    happy_little_tree(360, 50)
 
-    # draw a cabin
-    # draw the main cabin wall center of 850, 70 width of 150 height of 60
-    arcade.draw_rectangle_filled(850, 70, 150, 60, arcade.color.DARK_BROWN)
-    # draw the door
-    arcade.draw_rectangle_filled(815, 60, 30, 40, arcade.color.BLACK)
-    # draw the window
-    arcade.draw_rectangle_filled(890, 80, 20, 20, arcade.color.BLACK)
-    arcade.draw_triangle_filled(750, 100, 850, 130, 950, 100, arcade.color.WHITE)
-    # horizontal lines for the logs
-    # (start x, start y, end x, end y)
-    arcade.draw_line(775, 90, 925, 90, arcade.color.BLACK, 1)
-    arcade.draw_line(775, 80, 925, 80, arcade.color.BLACK, 1)
-    arcade.draw_line(775, 70, 925, 70, arcade.color.BLACK, 1)
-    arcade.draw_line(775, 60, 925, 60, arcade.color.BLACK, 1)
-    arcade.draw_line(775, 50, 925, 50, arcade.color.BLACK, 1)
+
+    # Call the fat tree polygon function, put it close to the comfy cabin
+    fat_tree(250, -250)
+
+    # call the comfy cabin function
+    comfy_little_cabin(50, 15)
 
     # Draw a sun (x, y, diameter)
     arcade.draw_circle_filled(70, 525, 40, arcade.color.YELLOW)
