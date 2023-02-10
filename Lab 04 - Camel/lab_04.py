@@ -29,6 +29,7 @@ thirst = 0
 camel_tiredness = 0
 miles_natives_traveled = -20
 drinks_left_in_canteen = 3
+oasis = 0
 
 # print_instructions():
 
@@ -91,25 +92,26 @@ while not done:
                     Your thirst is quenched and you feel refreshed. """)
         elif drinks_left_in_canteen == 0:
             print(""" You are all out of water... this is not good. """)
-    if done == False and camel_tiredness > 5:
-        print("Your camel is getting tired")
-    if done == False and thirst > 4:
-            print(""" You are very thirsty. """)
-    if thirst > 6:
-        print(""" You died of thirst. Game Over. """)
-        done = True
+    if done == False and miles_natives_traveled >= miles_traveled:
+        print(" The natives caught you. Game over.")
     if done == False and camel_tiredness > 8:
-        print("Your camel died")
+        print("Your camel died. Game over.")
         done = True
-
-
-
-
-
-
-
-
-
+    elif done == False and camel_tiredness > 5:
+        print("Your camel is getting tired")
+    if thirst > 6:
+        print(" You died of thirst. Game over.")
+        done = True
+    elif done == False and thirst > 4:
+        print(" You are very thirsty." )
+    if done == False and miles_traveled <= miles_natives_traveled + 15:
+        print(" The natives are getting close! ")
+    if done == False and miles_traveled >= 200:
+        print("You beat the game! Well done!")
+    if done == False and random.randint(0, 20) == 10:
+        camel_tiredness = 0
+        drinks_left_in_canteen = 3
+        print("You found and oasis! Your camel is refreshed and your canteen is refilled.")
 
 
 '''
