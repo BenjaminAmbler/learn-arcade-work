@@ -20,6 +20,7 @@ def draw_section_1():
         for column in range(30):
             x = 135 + column  # Instead of zero, calculate the proper x location using 'column'
             y = 136 + row # Instead of zero, calculate the proper y location using 'row'
+            # I know this is supposed to be a 5 by 5 pixel, but this way it fills up the whole section
             arcade.draw_rectangle_filled(x, y, 270, 270, arcade.color.WHITE)
 
 
