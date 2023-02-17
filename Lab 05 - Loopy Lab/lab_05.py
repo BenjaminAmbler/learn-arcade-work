@@ -1,3 +1,5 @@
+import time
+
 import arcade
 
 
@@ -16,9 +18,6 @@ def draw_section_outlines():
 
 
 def draw_section_1():
-
-    # Ok, this made a huge difference, remember, it's:
-    # (starting number, number to stop at, increment amount)
 
     for row in range(30):
 
@@ -62,17 +61,55 @@ def draw_section_2():
 def draw_section_3():
     # Use the modulus operator and an if/else statement to select the color.
     # Don't use multiple 'if' statements.
-    pass
+    for row in range(30):
+
+        for column in range(30):
+
+            x = column * 10 + 605 # Instead of zero, calculate the proper x location using 'column'
+
+            y = row * 10 + 5 # Instead of zero, calculate the proper y location using 'row'
+
+            if row % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            elif row % 2 != 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+
+            # if column % 2 == 0:
+            #     arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            # elif column % 2 != 0:
+            #     arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
 
 
 def draw_section_4():
     # Use the modulus operator and just one 'if' statement to select the color.
-    pass
+    for row in range(30):
+
+        for column in range(30):
+
+            x = column * 10 + 905 # Instead of zero, calculate the proper x location using 'column'
+
+            y = row * 10 + 5 # Instead of zero, calculate the proper y location using 'row'
+
+            # have to use == instead of != to end on a black square
+            if row % 2 == 0 and column % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            #if row % 2 != 0:
+            #    arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            # elif row % 2 != 0:
+            #     arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+
+
+
+
+
+
 
 
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
-    pass
+
 
 
 def draw_section_6():
