@@ -16,7 +16,12 @@ def draw_section_outlines():
 
 
 def draw_section_1():
+
+    # Ok, this made a huge differentce, remember, it's:
+    # (starting number, number to stop at, increment amount)
+
     for row in range(1, 300, 10):
+
         for column in range(1, 300, 10):
 
             x = 4 + column  # Instead of zero, calculate the proper x location using 'column'
