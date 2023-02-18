@@ -17,7 +17,7 @@ def draw_section_outlines():
 
 def draw_section_1():
 
-    # Ok, this made a huge differentce, remember, it's:
+    # Ok, this made a huge difference, remember, it's:
     # (starting number, number to stop at, increment amount)
 
     for row in range(1, 300, 10):
@@ -36,7 +36,7 @@ def draw_section_2():
     # Below, replace "pass" with your code for the loop.
     # Use the modulus operator and an if statement to select the color
     # Don't loop from 30 to 60 to shift everything over, just add 300 to x.
-    pass
+
 
 
 def draw_section_3():
