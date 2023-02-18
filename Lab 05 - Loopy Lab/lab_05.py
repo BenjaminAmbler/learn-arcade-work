@@ -20,13 +20,13 @@ def draw_section_1():
     # Ok, this made a huge difference, remember, it's:
     # (starting number, number to stop at, increment amount)
 
-    for row in range(1, 300, 10):
+    for row in range(30):
 
-        for column in range(1, 300, 10):
+        for column in range(30):
 
-            x = 4 + column  # Instead of zero, calculate the proper x location using 'column'
+            x = column * 10 + 5  # Instead of zero, calculate the proper x location using 'column'
 
-            y = 4 + row # Instead of zero, calculate the proper y location using 'row'
+            y = row * 10 + 5 # Instead of zero, calculate the proper y location using 'row'
 
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
@@ -36,6 +36,26 @@ def draw_section_2():
     # Below, replace "pass" with your code for the loop.
     # Use the modulus operator and an if statement to select the color
     # Don't loop from 30 to 60 to shift everything over, just add 300 to x.
+
+    for row in range(30):
+
+        for column in range(30):
+
+            x = column * 10 + 305 # Instead of zero, calculate the proper x location using 'column'
+
+            y = row * 10 + 5 # Instead of zero, calculate the proper y location using 'row'
+
+            if row % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            elif row % 2 != 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+
+            if column % 2 == 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            elif column % 2 != 0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+
+
 
 
 
