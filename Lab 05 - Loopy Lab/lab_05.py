@@ -135,7 +135,13 @@ def draw_section_5():
 
 
 def draw_section_6():
-    pass
+    # do the same thing as above, but downwards slope
+    for row in range(30):
+        for column in range(row):
+            y = row * 10 + 305  # Instead of zero, calculate the proper y location using 'row'
+            x = column * 10 + 305  # Instead of zero, calculate the proper x location using 'column'
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+
 
 
 def draw_section_7():
