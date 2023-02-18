@@ -16,12 +16,12 @@ def draw_section_outlines():
 
 
 def draw_section_1():
-    for row in range(1, 60, 10):
-        for column in range(1, 60, 10):
+    for row in range(1, 300, 10):
+        for column in range(1, 300, 10):
 
-            x = 135 + column + 10  # Instead of zero, calculate the proper x location using 'column'
+            x = 4 + column  # Instead of zero, calculate the proper x location using 'column'
 
-            y = 136 + row + 10 # Instead of zero, calculate the proper y location using 'row'
+            y = 4 + row # Instead of zero, calculate the proper y location using 'row'
 
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
