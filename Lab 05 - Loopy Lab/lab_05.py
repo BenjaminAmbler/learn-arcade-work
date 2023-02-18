@@ -1,3 +1,4 @@
+
 import time
 
 import arcade
@@ -109,37 +110,19 @@ def draw_section_4():
 
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
-
     for column in range(30):
-        # # Count
-        # # down, even if i is going
-        # # up
-        # row == 0 and 9 - row = 9
-        # row = 1 and 9 - row = 8
-        # row = 2 and 9 - row = 7
-        # row = 3 and 9 - row = 6
-        # row = 4 and 9 - row = 5
-        # row = 5 and 9 - row = 4
-        # row = 6 and 9 - row = 3
-        # row = 7 and 9 - row = 2
-        # row = 8 and 9 - row = 1
-        # row = 9 and 9 - row = 0
-
         for row in range(column):
-
-            x = column * 10 + 5  # Instead of zero, calculate the proper x location using 'column'
-
-            y = row * 10 + 305 # Instead of zero, calculate the proper y location using 'row'
-
+            x = column * 10 + 5
+            y = row * 10 + 305
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_6():
     # do the same thing as above, but downwards slope
-    for row in range(30):
-        for column in range(row):
-            y = row * 10 + 305  # Instead of zero, calculate the proper y location using 'row'
-            x = column * 10 + 305  # Instead of zero, calculate the proper x location using 'column'
+    for column in range(30):
+        for row in range(column):
+            x = column * 10 + 305 and column == 30 - column   # Instead of zero, calculate the proper x location using 'column'
+            y = row * 10 + 305 and row == 30 - row # Instead of zero, calculate the proper y location using 'row
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
