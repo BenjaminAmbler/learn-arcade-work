@@ -103,11 +103,6 @@ def draw_section_4():
 
 
 
-
-
-
-
-
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
     for column in range(30):
@@ -117,22 +112,39 @@ def draw_section_5():
             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
-def draw_section_6():
-    # do the same thing as above, but downwards slope
-    for column in range(30):
-        for row in range(column):
-            x = column * 10 + 305 and column == 30 - column   # Instead of zero, calculate the proper x location using 'column'
-            y = row * 10 + 305 and row == 30 - row # Instead of zero, calculate the proper y location using 'row
-            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+# def draw_section_6():
+#     # do the same thing as above, but downwards slope
+#     for column in range(30):
+#         for row in range(column):
+#             x = column * 10 + 305 and column == 30 - column   # Instead of zero, calculate the proper x location using 'column'
+#             y = row * 10 + 305 and row == 30 - row # Instead of zero, calculate the proper y location using 'row
+#             arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
+def draw_section_6():
+    for row in range(30):
+        for column in range(30):
+            x = column * 10 + 305
+            y = row * 10 + 305
+            if row < 30-column:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_7():
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = column * 10 + 605
+            y = row * 10 + 305
+            if row >= column:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_8():
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = column * 10 + 905
+            y = row * 10 + 305
+            if row >= 29 - column:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def main():
