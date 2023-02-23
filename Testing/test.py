@@ -1,10 +1,8 @@
-for i in range(1, 10):
-    for j in range(1, 10):
-        # Extra space?
-        if i * j < 10:
-            print(" ", end="")
+class Dog():
+    def __init__(self):
+        self.age = 0
+        self.name = ""
+        self.weight = 0
 
-        print(i * j, end=" ")
-
-    # Move down to the next row
-    print()
+    def bark(self):
+        print("Woof")
