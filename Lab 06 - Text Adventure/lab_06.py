@@ -6,14 +6,16 @@ Created 2/23/2023 by Benjamin Vincent Ambler
      |
 W ___|___ E
      |
+     |
      S
 
 _________________________________________________________
 |   Man Cave    |   Home Theater    |       Bedroom     |
 |   Room 7      |   Room 8          |          9        |
 |               |                   |                   |
-|_____]   [_____|_______]   [_______|_______]    [______|______________
-| West Hallway     Central Hallway     East Hallway       Balcony     )
+|_____]   [_____|_______]   [_______|_______]    [______|_____________
+|                                                                     )
+| West Hallway     Central Hallway     East Hallway       Balcony       )
 |       3                  4                5               6           )
 |_____]   [_____________]   [_______________]    [____________________)
 |               |                   |                   |
@@ -61,7 +63,7 @@ if __name__ == "__main__":
 
 """ 
 
-Create a variable called room. Set it equal to a new instance of the Room class.
+Step 7: Create a variable called room. Set it equal to a new instance of the Room class.
 For the first parameter, create a string with a description of your first room. 
 The last four elements will be the number of the next room if the user goes
 north, east, south, or west. Look at your sketch to see what numbers to use. 
