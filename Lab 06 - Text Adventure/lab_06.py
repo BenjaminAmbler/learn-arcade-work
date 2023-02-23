@@ -45,7 +45,11 @@ class Room:
         self.east = 0
         self.south = 0
         self.west = 0
+
+
 def main():
+    """ Create an empty list """
+    empty_list = []
     """ This creates the room """
     my_room = Room("description",
                    "objects",
@@ -60,8 +64,7 @@ Only run the main function if we are running this file.
 Don't run it if we are importing this file. """
 if __name__ == "__main__":
     main()
-    # Create an empty list
-    my_empty_list = []
+
 
 """ 
 
