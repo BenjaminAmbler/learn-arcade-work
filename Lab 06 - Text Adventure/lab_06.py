@@ -2,12 +2,12 @@
 This is a mini text adventure game for Lab 6.
 Created 2/23/2023 by Benjamin Vincent Ambler
 
-     N
-     |
-W ___|___ E
-     |
-     |
-     S
+       N
+       |
+W _____|_____ E
+       |
+       |
+       S
 
 _________________________________________________________
 |               |                   |                   |
@@ -36,7 +36,7 @@ class Room:
     """
     This is a class that represents a room
     """
-    def __init__(self):
+    def __init__(self, description, objects, north, east, south, west):
         """ This is a method that sets up the variables in the object,
          in this case, the room I think? Need to ask Scott. """
         self.description = ""
@@ -61,7 +61,7 @@ Don't run it if we are importing this file. """
 if __name__ == "__main__":
     main()
     # Create an empty list
-    my_list = []
+    my_empty_list = []
 
 """ 
 
