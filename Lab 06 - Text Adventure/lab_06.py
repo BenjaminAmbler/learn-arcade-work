@@ -10,17 +10,19 @@ W ___|___ E
      S
 
 _________________________________________________________
-|   Man Cave    |   Home Theater    |       Bedroom     |
-|   Room 7      |   Room 8          |          9        |
+|               |                   |                   |
+|   Man Cave    |   Home Theater    |                   |
+|   Room 7      |   Room 8          |      Bedroom 9    |
 |               |                   |                   |
 |_____]   [_____|_______]   [_______|_______]    [______|_____________
 |                                                                     )
-| West Hallway     Central Hallway     East Hallway       Balcony       )
-|       3                  4                5               6           )
+| W Hallway 3     Central H way 4     East Hallway 5      Balcony 6    )
+|                                                                      )
 |_____]   [_____________]   [_______________]    [____________________)
 |               |                   |                   |
 |   Game Room   |       Kitchen     |     Dining Room   |
 |       0       |          1        |         2         |
+|               |                   |                   |
 |_______________|___________________|___________________|
 
 
@@ -74,7 +76,7 @@ Because sometimes you need a value, other than zero, that represents )
 
 """
 
-x = room
+room = (Room)
 
 """ oh boy, going to need some serious help with this one. """
 
