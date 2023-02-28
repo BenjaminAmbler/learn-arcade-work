@@ -1,9 +1,7 @@
 """
 This is a mini text adventure game for Lab 6.
 Created 2/23/2023 by Benjamin Vincent Ambler
-Maybe I'll create this layout later, for now though,
-I'm just going to keep it simple and do the room
-layout that is already drawn for Lab 6 in the book.
+Here is the room layout for Lab 6 in the book.
 
        N
        |
@@ -56,7 +54,7 @@ def main():
 
 
     """ This creates the rooms
-    first, creating room 0 which is Bedroom 2 """
+    first, creating room 0 which is Bedroom 2. """
     my_room = Room("You are in Bedroom 2. There is a room to the east.",
                    "objects",
                    None,
