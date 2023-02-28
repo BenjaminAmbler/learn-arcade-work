@@ -57,7 +57,7 @@ def main():
 
 
     """ This creates the rooms
-    first, creating room 0 which is bedroom 2 """
+    first, creating room 0 which is Bedroom 2 """
     my_room = Room("Bedroom 2",
                    "objects",
                    None,
@@ -92,21 +92,28 @@ def main():
                    5,
                    1,
                    3)
-    """ Next, creating room 5 which is the kitchen """
+    """ Next, creating room 5 which is the Kitchen """
     my_room = Room("kitchen",
                    "objects",
-                   5,
                    None,
                    None,
-                   1)
+                   2,
+                   4)
+    """ Next, creating room 6 which is the Balcony """
+    my_room = Room("balcony testing testing, is this the room description?",
+                   "objects",
+                   None,
+                   None,
+                   4,
+                   None)
 
     print(my_room.description)
     room_list.append(my_room)
-    # for indx,cur_room in enumerate(room_list):
-    #     print('index:',indx)
-    #     print("Room Description", cur_room.description)
-    #     if cur_room.east is not None:
-    #         print("To the East:",room_list[cur_room.east].description)
+    for indx,cur_room in enumerate(room_list):
+        print('index:',indx)
+        print("Room Description", cur_room.description)
+        if cur_room.east is not None:
+            print("To the East:",room_list[cur_room.east].description)
 
 
 """ trying to append this room to the room list """
