@@ -52,17 +52,18 @@ class Room:
 def main():
     """ Create an empty list called room_list so that you can append to it """
     room_list = []
-    current_room = []
+    # current_room = []
 
 
     """ This creates the rooms
     first, creating room 0 which is Bedroom 2 """
-    my_room = Room("Bedroom 2",
+    my_room = Room("You are in Bedroom 2. There is a room to the east.",
                    "objects",
                    None,
                    1,
                    None,
                    None)
+    room_list.append(my_room) # this adds this room to the room_list
     """ Next, creating room 1 which is the South Hall """
     my_room = Room("South Hall",
                    "objects",
@@ -124,5 +125,5 @@ current_room = 0
 Only run the main function if we are running this file.
 Don't run it if we are importing this file. """
 if __name__ == "__main__":
-    print("hello")
+    """ print("hello") """
     main()
