@@ -47,6 +47,7 @@ class Room:
         self.west = west
 
 
+
 def main():
     """ Create an empty list called room_list so that you can append to it """
     done = False
@@ -118,25 +119,37 @@ def main():
                    None)
     room_list.append(my_room) # this adds this room to the room_list
 
-    print(room_list[current_room].description)
-    print(current_room)
+    # print(room_list[current_room].description)
+    # print(current_room)
 
     done = False
     while not done:
         print()
         print(room_list[current_room].description)
-        user_choice: str = input("where?")
-        my_result = user_choice() == "N, E, S, W"
+        user_choice: str = input("Which direction do you want to go? I understand N,E,S,W. N = north, E = east, S = south, W = west. q to quit"
+                                 "\nWhat is your choice? : ")
+        my_result = user_choice.upper() == "N, E, S, W"
         if user_choice.upper() == "N":
             next_room = room_list[current_room].north
+
         elif user_choice.upper() == "E":
             next_room = room_list[current_room].east
+
         elif user_choice.upper() == "S":
             next_room = room_list[current_room].south
+
         elif user_choice.upper() == "W":
             next_room = room_list[current_room].west
+
+        elif user_choice.upper() == "Q":
+            print("Thanks for playing Ben's Text Adventure Game")
+            break
+
         if next_room == None:
-            print("you can't go that way")
+            print(" \nYou hear a computer voice say: \n \"Error, Error, does not compute, \n you can not go that way beep boop..."
+                  " \n there is no door that in that direction"
+                  " \n or I do not understand that input"
+                  " \n beep boop please try again\"")
         else:
             current_room = next_room
 
@@ -148,11 +161,6 @@ def main():
     #     print("Room Description", cur_room.description)
     #     if cur_room.east is not None:
     #         print("To the East:",room_list[cur_room.east].description)
-
-
-
-
-
 
 
 
