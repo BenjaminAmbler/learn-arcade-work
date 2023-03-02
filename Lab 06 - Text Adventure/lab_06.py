@@ -49,8 +49,9 @@ class Room:
 
 def main():
     """ Create an empty list called room_list so that you can append to it """
+    done = False
     room_list = []
-    # current_room = []
+    current_room = 0
 
 
     """ This creates the rooms
@@ -62,60 +63,96 @@ def main():
                    None,
                    None)
     room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 1 which is the South Hall """
-    my_room = Room("South Hall",
+    my_room = Room("You are in the South Hall. There is a door to the west and to the east.",
                    "objects",
                    4,
                    2,
                    None,
                    0)
+    room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 2 which is the Dining Room """
-    my_room = Room("Dining Room",
+    my_room = Room("You are in the Dining Room. There is a door to the north and to the west",
                    "objects",
                    5,
                    None,
                    None,
                    1)
+    room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 3 which is Bedroom 1 """
-    my_room = Room("Dining Room",
+    my_room = Room(" You are in Bedroom 1. There is a door to the east.",
                    "objects",
                    None,
                    4,
                    None,
                    None)
+    room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 4 which is the North Hallway """
-    my_room = Room("North Hallway",
+    my_room = Room(" You are in the North Hallway. There is a door in every direction.",
                    "objects",
                    6,
                    5,
                    1,
                    3)
+    room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 5 which is the Kitchen """
-    my_room = Room("kitchen",
+    my_room = Room(" You are in the Kitchen. There is a door to the south and to the west",
                    "objects",
                    None,
                    None,
                    2,
                    4)
+    room_list.append(my_room) # this adds this room to the room_list
+
     """ Next, creating room 6 which is the Balcony """
-    my_room = Room("balcony testing testing, is this the room description?",
+    my_room = Room(" You are on the Balcony ",
                    "objects",
                    None,
                    None,
                    4,
                    None)
+    room_list.append(my_room) # this adds this room to the room_list
 
-    print(my_room.description)
-    room_list.append(my_room)
-    for indx,cur_room in enumerate(room_list):
-        print('index:',indx)
-        print("Room Description", cur_room.description)
-        if cur_room.east is not None:
-            print("To the East:",room_list[cur_room.east].description)
+    print(room_list[current_room].description)
+    print(current_room)
+
+    done = False
+    while not done:
+        print()
+        print(room_list[current_room].description)
+        user_choice: str = input("where?")
+        my_result = user_choice() == "N, E, S, W"
+        if user_choice.upper() == "N":
+            next_room = room_list[current_room].north
+        elif user_choice.upper() == "E":
+            next_room = room_list[current_room].east
+        elif user_choice.upper() == "S":
+            next_room = room_list[current_room].south
+        elif user_choice.upper() == "W":
+            next_room = room_list[current_room].west
+        if next_room == None:
+            print("you can't go that way")
+        else:
+            current_room = next_room
 
 
-""" trying to append this room to the room list """
-current_room = 0
+    # print(my_room.description)
+    # #room_list.append(my_room)
+    # for indx,cur_room in enumerate(room_list):
+    #     print('index:',indx)
+    #     print("Room Description", cur_room.description)
+    #     if cur_room.east is not None:
+    #         print("To the East:",room_list[cur_room.east].description)
+
+
+
+
+
 
 
 
@@ -123,5 +160,5 @@ current_room = 0
 Only run the main function if we are running this file.
 Don't run it if we are importing this file. """
 if __name__ == "__main__":
-    """ print("hello") """
+
     main()
