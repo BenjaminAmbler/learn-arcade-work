@@ -58,11 +58,11 @@ def main():
     """ This creates the rooms
     first, creating room 0 which is Bedroom 2. """
     my_room = Room("You are in Bedroom 2. There is a room to the east.",
-                   "objects",
-                   None,
-                   1,
-                   None,
-                   None)
+                   "objects", # we can add keys or something here as an object later
+                   None, # this is set to None since there is no door to the north
+                   1, # this is set to 1 since
+                   None, # this is set to None since there is no room to the south
+                   None) # no doorway to the west in this room
     room_list.append(my_room) # this adds this room to the room_list
 
     """ Next, creating room 1 which is the South Hall """
