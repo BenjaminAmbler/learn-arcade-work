@@ -142,8 +142,11 @@ def main():
             next_room = room_list[current_room].west
 
         elif user_choice.upper() == "Q":
+            done = True
             print("Thanks for playing Ben's Text Adventure Game")
             break
+        else:
+            next_room = None
 
         if next_room == None:
             print(" \nYou hear a computer voice say: \n \"Error, Error, does not compute, \n you can not go that way beep boop..."
