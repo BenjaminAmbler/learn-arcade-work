@@ -1,6 +1,13 @@
 
 """ Lab 7 - User Control """
 
+# Iinstructions:
+# Move the tree with the arrow keys
+# Move the snowball with the mouse.
+# Makes a sound when you hit the edge of the screen
+# Makes a sound when you press the left mouse button
+
+
 import arcade
 # laser_sound = arcade.load_sound("laser.wav")
 
@@ -47,12 +54,13 @@ class Ball:
 class Tree:
     def __init__(self, center_x, center_y, change_x, change_y, width, height, color):
         """ Constructor """
+        # Take the parameters of the init function above,
+        # and create instance variables out of them.
+        # sound instance variables
         self.laser_sound = arcade.load_sound("laser.wav")
         self.laser_sound_player = None
 
-
-        # Take the parameters of the init function above,
-        # and create instance variables out of them.
+        # movement variables
         self.center_x = center_x
         self.center_y = center_y
         self.change_x = change_x
@@ -102,7 +110,11 @@ class Tree:
         # See if the tree hit the edge of the screen. If so, change direction
         if self.center_x < self.width:
             self.center_x = self.width
+            # This code makes the sound play on repeat 60 times a second
+            # when you hit the edge of the screen. Sounds weird.
             # arcade.play_sound(laser_sound)
+
+            # This code fixes it:
             if not self.laser_sound_player or not self.laser_sound_player.playing:
                 self.laser_sound_player = arcade.play_sound(self.laser_sound)
 
@@ -110,21 +122,31 @@ class Tree:
         if self.center_x > SCREEN_WIDTH - self.width:
             self.center_x = SCREEN_WIDTH - self.width
 
+            if not self.laser_sound_player or not self.laser_sound_player.playing:
+                self.laser_sound_player = arcade.play_sound(self.laser_sound)
+
         if self.center_y < self.height:
             self.center_y = self.height
+
+            if not self.laser_sound_player or not self.laser_sound_player.playing:
+                self.laser_sound_player = arcade.play_sound(self.laser_sound)
 
         if self.center_y > SCREEN_HEIGHT - self.height:
             self.center_y = SCREEN_HEIGHT - self.height
 
+            if not self.laser_sound_player or not self.laser_sound_player.playing:
+                self.laser_sound_player = arcade.play_sound(self.laser_sound)
+
 
 class MyGame(arcade.Window):
     """ Our custom window class """
-    self.laser_sound = arcade.load_sound("laser.wav")
-    self.laser_sound_player = None
+    # self.laser_sound = arcade.load_sound("laser.wav")
+    # self.laser_sound_player = None
 
     def __init__(self, width, height, title):
         """ Initializer """
-
+        self.laser_sound = arcade.load_sound("laser.wav")
+        self.laser_sound_player = None
         # Call the parent class's init function
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 User Control")
 
