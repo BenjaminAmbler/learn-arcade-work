@@ -1,7 +1,7 @@
 
 """ Lab 7 - User Control """
 
-# Iinstructions:
+# Instructions:
 # Move the tree with the arrow keys
 # Move the snowball with the mouse.
 # Makes a sound when you hit the edge of the screen
