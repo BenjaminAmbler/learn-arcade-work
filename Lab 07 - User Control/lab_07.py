@@ -145,7 +145,7 @@ class MyGame(arcade.Window):
 
     def __init__(self, width, height, title):
         """ Initializer """
-        self.laser_sound = arcade.load_sound("laser.wav")
+        self.laser_sound = arcade.load_sound(":resources:sounds/upgrade1.wav")
         self.laser_sound_player = None
         # Call the parent class's init function
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 User Control")
