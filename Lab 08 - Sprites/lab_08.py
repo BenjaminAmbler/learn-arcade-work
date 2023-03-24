@@ -19,15 +19,40 @@ import os
 
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.5
-SPRITE_SCALING_COIN = 0.5
-# EXTRA_LIVES_COUNT = 50
-EXTRA_LIFE_COUNT = 1
-ASTEROID_COUNT = 1
+SPRITE_SCALING_COIN = 1
+EXTRA_LIFE_COUNT = 5
+ASTEROID_COUNT = 5
 
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+SCREEN_TITLE = "Dodge the Rocks, Collect the Tiny Green Ships"
 SPRITE_SPEED = 0.5
+
+
+class GameOverView(arcade.View):
+    """ View to show when game is over """
+
+    def __init__(self):
+        """ This is run once when we switch to this view """
+        super().__init__()
+        self.texture = arcade.load_texture("game_over_screenshot.png")
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
+
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+                                SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, re-start the game. """
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
 
 class Asteroid(arcade.Sprite):
     """
@@ -99,13 +124,13 @@ class Extra_Life(arcade.Sprite):
             self.reset_pos()
 
 
-class MyGame(arcade.Window):
-    """ Our custom Window Class"""
+class GameView(arcade.View):
+    """ Our custom View Class"""
 
     def __init__(self):
         """ Initializer """
         # Call the parent class initializer
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Dodge The Rocks, Collect The Extra Lives")
+        super().__init__()
 
         # Set the working directory (where we expect to find files) to the same
         # directory this .py file is in. You can leave this out of your own
@@ -132,7 +157,7 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Don't show the mouse cursor
-        self.set_mouse_visible(False)
+        self.window.set_mouse_visible(False)
 
         arcade.set_background_color(arcade.color.AMAZON)
 
@@ -213,10 +238,11 @@ class MyGame(arcade.Window):
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
-        if len(self.extra_life_list) > 0:
+        # if len(self.extra_life_list) > 0:
             self.extra_life_list.update()
             self.asteroid_list.update()
-        elif len(self.extra_life_list) <=0:
+
+
 
 
         # Generate a list of all sprites that collided with the player.
@@ -239,13 +265,22 @@ class MyGame(arcade.Window):
             asteroid.remove_from_sprite_lists()
             self.score -= 5
 
+        # Check length of coin list. If it is zero, flip to the
+        # game over view.
+        if len(self.extra_life_list) == 0:
+            view = GameOverView()
+            self.window.show_view(view)
+
 
 
 
 def main():
-    """ Main method """
-    window = MyGame()
-    window.setup()
+    """ Main function """
+
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    start_view = GameView()
+    window.show_view(start_view)
+    start_view.setup()
     arcade.run()
 
 

@@ -1,142 +1,103 @@
 """
-Sprite Collect Coins Moving Down
+This program shows how to:
+  * Display a sequence of screens in your game.  The "arcade.View"
+    class makes it easy to separate the code for each screen into
+    its own class.
+  * This example shows the absolute basics of using "arcade.View".
+    See the "different_screens_example.py" for how to handle
+    screen-specific data.
 
-Simple program to show basic sprite usage.
-
-Artwork from https://kenney.nl
+Make a separate class for each view (screen) in your game.
+The class will inherit from arcade.View. The structure will
+look like an arcade.Window as each View will need to have its own draw,
+update and window event methods. To switch a View, simply create a View
+with `view = MyView()` and then use the "self.window.set_view(view)" method.
 
 If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_collect_coins_move_down
+python -m arcade.examples.view_screens_minimal
 """
 
-import random
 import arcade
 
-# --- Constants ---
-SPRITE_SCALING_PLAYER = 0.5
-SPRITE_SCALING_COIN = 0.2
-COIN_COUNT = 50
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Sprite Collect Coins Moving Down Example"
+WIDTH = 800
+HEIGHT = 600
 
 
-class Coin(arcade.Sprite):
-    """
-    This class represents the coins on our screen. It is a child class of
-    the arcade library's "Sprite" class.
-    """
+class MenuView(arcade.View):
+    """ Class that manages the 'menu' view. """
 
-    def reset_pos(self):
-
-        # Reset the coin to a random spot above the screen
-        self.center_y = random.randrange(SCREEN_HEIGHT + 20,
-                                         SCREEN_HEIGHT + 100)
-        self.center_x = random.randrange(SCREEN_WIDTH)
-
-    def update(self):
-
-        # Move the coin
-        self.center_y -= 1
-
-        # See if the coin has fallen off the bottom of the screen.
-        # If so, reset it.
-        if self.top < 0:
-            self.reset_pos()
-
-
-class MyGame(arcade.Window):
-    """ Our custom Window Class"""
-
-    def __init__(self):
-        """ Initializer """
-
-        # Call the parent class initializer
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
-        # Variables that will hold sprite lists
-        self.player_sprite_list = None
-        self.coin_sprite_list = None
-
-        # Set up the player info
-        self.player_sprite = None
-        self.score = 0
-
-        # Don't show the mouse cursor
-        self.set_mouse_visible(False)
-
-        arcade.set_background_color(arcade.color.AMAZON)
-
-    def setup(self):
-        """ Set up the game and initialize the variables. """
-
-        # Sprite lists
-        self.player_sprite_list = arcade.SpriteList()
-        self.coin_sprite_list = arcade.SpriteList()
-
-        # Score
-        self.score = 0
-
-        # Set up the player
-        # Character image from kenney.nl
-        self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png",
-                                           SPRITE_SCALING_PLAYER)
-        self.player_sprite.center_x = 50
-        self.player_sprite.center_y = 50
-        self.player_sprite_list.append(self.player_sprite)
-
-        # Create the coins
-        for i in range(COIN_COUNT):
-
-            # Create the coin instance
-            # Coin image from kenney.nl
-            coin = Coin(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
-
-            # Position the coin
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(SCREEN_HEIGHT)
-
-            # Add the coin to the lists
-            self.coin_sprite_list.append(coin)
+    def on_show_view(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.WHITE)
 
     def on_draw(self):
-        """ Draw everything """
+        """ Draw the menu """
         self.clear()
-        self.coin_sprite_list.draw()
-        self.player_sprite_list.draw()
+        arcade.draw_text("Menu Screen - click to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLACK, font_size=30, anchor_x="center")
 
-        # Put the text on the screen.
-        output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ Use a mouse press to advance to the 'game' view. """
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
 
-    def on_mouse_motion(self, x, y, dx, dy):
-        """ Handle Mouse Motion """
 
-        # Move the center of the player sprite to match the mouse x, y
-        self.player_sprite.center_x = x
-        self.player_sprite.center_y = y
+class GameView(arcade.View):
+    """ Manage the 'game' view for our program. """
 
-    def on_update(self, delta_time):
-        """ Movement and game logic """
+    def __init__(self):
+        super().__init__()
+        # Create variables here
 
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
-        self.coin_sprite_list.update()
+    def setup(self):
+        """ This should set up your game and get it ready to play """
+        # Replace 'pass' with the code to set up your game
+        pass
 
-        # Generate a list of all sprites that collided with the player.
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                        self.coin_sprite_list)
+    def on_show_view(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.ORANGE_PEEL)
 
-        # Loop through each colliding sprite, remove it, and add to the score.
-        for coin in hit_list:
-            coin.remove_from_sprite_lists()
-            self.score += 1
+    def on_draw(self):
+        """ Draw everything for the game. """
+        self.clear()
+        arcade.draw_text("Game - press SPACE to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLACK, font_size=30, anchor_x="center")
+
+    def on_key_press(self, key, _modifiers):
+        """ Handle key presses. In this case, we'll just count a 'space' as
+        game over and advance to the game over view. """
+        if key == arcade.key.SPACE:
+            game_over_view = GameOverView()
+            self.window.show_view(game_over_view)
+
+
+class GameOverView(arcade.View):
+    """ Class to manage the game over view """
+    def on_show_view(self):
+        """ Called when switching to this view"""
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        """ Draw the game over view """
+        self.clear()
+        arcade.draw_text("Game Over - press ESCAPE to advance", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.WHITE, 30, anchor_x="center")
+
+    def on_key_press(self, key, _modifiers):
+        """ If user hits escape, go back to the main menu view """
+        if key == arcade.key.ESCAPE:
+            menu_view = MenuView()
+            self.window.show_view(menu_view)
 
 
 def main():
-    window = MyGame()
-    window.setup()
+    """ Startup """
+    window = arcade.Window(WIDTH, HEIGHT, "Different Views Minimal Example")
+    menu_view = MenuView()
+    window.show_view(menu_view)
     arcade.run()
 
 
