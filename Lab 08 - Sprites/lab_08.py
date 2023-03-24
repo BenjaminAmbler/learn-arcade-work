@@ -7,6 +7,7 @@ These asteroids are actually attracted to your ship
 because your ship has a gravity device and
 you can't turn it off.
 
+
 Instructions:
 
 Move with the mouse. Try to avoid the asteroids and collect
