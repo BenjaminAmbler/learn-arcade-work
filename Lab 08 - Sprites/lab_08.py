@@ -26,7 +26,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.5
 # EXTRA_LIVES_COUNT = 50
-COIN_COUNT = 50
+EXTRA_LIFE_COUNT = 50
 ASTEROID_COUNT = 3
 
 
@@ -58,7 +58,7 @@ class Asteroid(arcade.Sprite):
             self.reset_pos()
 
 
-class Coin(arcade.Sprite):
+class Extra_Life(arcade.Sprite):
     """
     This class represents the coins on our screen. It is a child class of
     the arcade library's "Sprite" class.
@@ -73,7 +73,8 @@ class Coin(arcade.Sprite):
 
     def update(self):
 
-        # Move the extra lives
+        # Move the extra lives from the top to the bottom
+        # Make it rain! (extra lives)
         self.center_y -= 1
 
         # check if the extra life has fallen off the bottom of the screen.
@@ -95,7 +96,7 @@ class MyGame(arcade.Window):
 
         # Variables that will hold sprite lists
         self.player_list = None
-        self.coin_list = None
+        self.extra_life_list = None
         self.asteroid_list = None
 
         # sound instance variables
@@ -116,7 +117,7 @@ class MyGame(arcade.Window):
 
         # Sprite lists
         self.player_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
+        self.extra_life_list = arcade.SpriteList()
         self.asteroid_list = arcade.SpriteList()
 
         # Score
@@ -131,18 +132,18 @@ class MyGame(arcade.Window):
         self.player_list.append(self.player_sprite)
 
         # Create the extra lives
-        for i in range(COIN_COUNT):
+        for i in range(EXTRA_LIFE_COUNT):
 
             # Create the good sprite instance
             # Coin image from kenney.nl
-            coin = Coin(":resources:images/space_shooter/playerLife1_green.png", SPRITE_SCALING_COIN)
+            extra_life = Extra_Life(":resources:images/space_shooter/playerLife1_green.png", SPRITE_SCALING_COIN)
 
             # Position the coin
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(SCREEN_HEIGHT)
+            extra_life.center_x = random.randrange(SCREEN_WIDTH)
+            extra_life.center_y = random.randrange(SCREEN_HEIGHT)
 
             # Add the coin to the lists
-            self.coin_list.append(coin)
+            self.extra_life_list.append(extra_life)
 
 
         # Create the asteroids
@@ -154,18 +155,18 @@ class MyGame(arcade.Window):
             # Coin image from kenney.nl
             asteroid = Asteroid(":resources:images/space_shooter/meteorGrey_big3.png", SPRITE_SCALING_COIN)
 
-            # Position the coin
+            # Position the asteroid
             asteroid.center_x = random.randrange(SCREEN_WIDTH)
             asteroid.center_y = random.randrange(SCREEN_HEIGHT)
 
-            # Add the coin to the lists
+            # Add the asteroid to the lists
             self.asteroid_list.append(asteroid)
 
 
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
-        self.coin_list.draw()
+        self.extra_life_list.draw()
         self.asteroid_list.draw()
         self.player_list.draw()
 
@@ -185,27 +186,27 @@ class MyGame(arcade.Window):
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
-        self.coin_list.update()
+        self.extra_life_list.update()
         self.asteroid_list.update()
 
         # Generate a list of all sprites that collided with the player.
-        coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                              self.coin_list)
+        extra_life_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.extra_life_list)
         asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                                  self.asteroid_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
-        for coin in coins_hit_list:
+        for extra_life in extra_life_hit_list:
             if not self.good_sound_player or not self.good_sound_player.playing:
                 self.good_sound_player = arcade.play_sound(self.good_sound)
-            coin.remove_from_sprite_lists()
+            extra_life.remove_from_sprite_lists()
             self.score += 1
 
         for asteroid in asteroid_hit_list:
             # if not self.bad_sound_player or not self.bad_sound_player.playing:
             #     self.bad_sound_player = arcade.play_sound(self.bad_sound)
             asteroid.remove_from_sprite_lists()
-            self.score -= 1
+            self.score -= 5
 
 
 def main():
