@@ -1,15 +1,13 @@
 """
 
+Welcome to Space Dodge. You are a spaceship pilot flying
+through an asteroid belt. You are trying to dodge
+the asteroids and collect the extra lives.
+
 Instructions:
 
-Move with the mouse. Try to avoid the rocks, and collect
-the extra lives.
-
-
-good sprites = extra lives. These are the tiny little
-spaceships.
-
-Bad sprites = asteroids.
+Move with the mouse. Try to avoid the asteroids and collect
+the extra lives (the tiny green spaceships)
 
  """
 
