@@ -3,11 +3,16 @@
 Welcome to Space Dodge. You are a spaceship pilot flying
 through an asteroid belt. You are trying to dodge
 the asteroids and collect the extra lives.
+These asteroids are actually attracted to your ship
+because your ship has a gravity device and
+you can't turn it off.
 
 Instructions:
 
 Move with the mouse. Try to avoid the asteroids and collect
 the extra lives (the tiny green spaceships)
+If you hit 3 asteroids it's game over. If you collect all of the
+extra lives you win! But it's still game over.
 
  """
 
@@ -38,7 +43,7 @@ class GameOverView(arcade.View):
 
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
-        arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
+        # arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
 
     def on_draw(self):
         """ Draw this view """
