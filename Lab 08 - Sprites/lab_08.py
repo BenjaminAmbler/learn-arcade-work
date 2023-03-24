@@ -1,18 +1,12 @@
-""" coins = extra lives. Need to try this again.
+"""
 
-Tried replacing:
+Instructions:
 
-coin = extra_life
+Move with the mouse. Try to avoid the rocks, and collect
+the extra lives.
 
-Coin = Extra_Life
 
-COIN = EXTRA_LIFE
-
-but it kept messing up the whole thing.
-
-I'll have to try some more later when I get some more time.
-
-"coins" = good sprites, which are extra lives. These are the tiny little
+good sprites = extra lives. These are the tiny little
 spaceships.
 
 Bad sprites = asteroids.
@@ -27,7 +21,7 @@ SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.5
 # EXTRA_LIVES_COUNT = 50
 EXTRA_LIFE_COUNT = 50
-ASTEROID_COUNT = 3
+ASTEROID_COUNT = 25
 
 
 SCREEN_WIDTH = 800
@@ -99,9 +93,13 @@ class MyGame(arcade.Window):
         self.extra_life_list = None
         self.asteroid_list = None
 
-        # sound instance variables
-        self.good_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
+        # good sound instance variable
+        self.good_sound = arcade.load_sound(":resources:sounds/upgrade4.wav")
         self.good_sound_player = None
+
+        # bad sound instance variable
+        self.bad_sound = arcade.load_sound(":resources:sounds/explosion2.wav")
+        self.bad_sound_player = None
 
         # Set up the player info
         self.player_sprite = None
@@ -203,8 +201,8 @@ class MyGame(arcade.Window):
             self.score += 1
 
         for asteroid in asteroid_hit_list:
-            # if not self.bad_sound_player or not self.bad_sound_player.playing:
-            #     self.bad_sound_player = arcade.play_sound(self.bad_sound)
+            if not self.bad_sound_player or not self.bad_sound_player.playing:
+                self.bad_sound_player = arcade.play_sound(self.bad_sound)
             asteroid.remove_from_sprite_lists()
             self.score -= 5
 
