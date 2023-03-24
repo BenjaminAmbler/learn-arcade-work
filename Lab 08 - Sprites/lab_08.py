@@ -1,4 +1,11 @@
-""" Sprite Sample Program """
+""" coins are actually extra lives.
+I tried replacing all of the words coin with extra_life,
+Coin with Extra_Life,
+and COIN with EXTRA_LIFE... but it kept messing up the whole thing.
+I'll have to try some more later when I get some more time, but as of right now,
+coin = extra life which are represented by little tiny
+spaceships.
+ """
 
 import random
 import arcade
