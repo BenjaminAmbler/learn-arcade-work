@@ -15,6 +15,7 @@ Bad sprites = asteroids.
 
 import random
 import arcade
+import os
 
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.5
@@ -26,30 +27,51 @@ ASTEROID_COUNT = 25
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+SPRITE_SPEED = 0.5
 
 class Asteroid(arcade.Sprite):
     """
     This class represents the asteroids on our screen. It is a child class of
     the arcade library's "Sprite" class.
     """
+    #
+    # def reset_pos(self):
+    #
+    #     # Reset the asteroids to a random position off of the right side of the screen
+    #     self.center_y = random.randrange(SCREEN_HEIGHT)
+    #     self.center_x = random.randrange(SCREEN_WIDTH + 20,
+    #                                  SCREEN_WIDTH + 100)
+    #
+    # def update(self):
+    #
+    #     # Move the asteroids from right to left
+    #     self.center_x -= 2
+    #
+    #     # check if the asteroid has moved off of the screen.
+    #     # if so, reset it.
+    #     # this might need to be changed to self.right instead
+    #     if self.left < 0:
+    #         self.reset_pos()
 
-    def reset_pos(self):
+    def follow_sprite(self, player_sprite):
+        """
+        This function will move the current sprite towards whatever
+        other sprite is specified as a parameter.
 
-        # Reset the asteroids to a random position off of the right side of the screen
-        self.center_y = random.randrange(SCREEN_HEIGHT)
-        self.center_x = random.randrange(SCREEN_WIDTH + 20,
-                                     SCREEN_WIDTH + 100)
+        We use the 'min' function here to get the sprite to line up with
+        the target sprite, and not jump around if the sprite is not off
+        an exact multiple of SPRITE_SPEED.
+        """
 
-    def update(self):
+        if self.center_y < player_sprite.center_y:
+            self.center_y += min(SPRITE_SPEED, player_sprite.center_y - self.center_y)
+        elif self.center_y > player_sprite.center_y:
+            self.center_y -= min(SPRITE_SPEED, self.center_y - player_sprite.center_y)
 
-        # Move the asteroids from right to left
-        self.center_x -= 1
-
-        # check if the asteroid has moved off of the screen.
-        # if so, reset it.
-        # this might need to be chaned to self.right instead
-        if self.left < 0:
-            self.reset_pos()
+        if self.center_x < player_sprite.center_x:
+            self.center_x += min(SPRITE_SPEED, player_sprite.center_x - self.center_x)
+        elif self.center_x > player_sprite.center_x:
+            self.center_x -= min(SPRITE_SPEED, self.center_x - player_sprite.center_x)
 
 
 class Extra_Life(arcade.Sprite):
@@ -77,9 +99,6 @@ class Extra_Life(arcade.Sprite):
             self.reset_pos()
 
 
-
-
-
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
 
@@ -87,6 +106,13 @@ class MyGame(arcade.Window):
         """ Initializer """
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Dodge The Rocks, Collect The Extra Lives")
+
+        # Set the working directory (where we expect to find files) to the same
+        # directory this .py file is in. You can leave this out of your own
+        # code, but it is needed to easily run the examples using "python -m"
+        # as mentioned at the top of this program.
+        file_path = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
 
         # Variables that will hold sprite lists
         self.player_list = None
@@ -182,6 +208,8 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
         """ Movement and game logic """
 
+        for asteroid in self.asteroid_list:
+            asteroid.follow_sprite(self.player_sprite)
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
         self.extra_life_list.update()
@@ -193,18 +221,23 @@ class MyGame(arcade.Window):
         asteroid_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                                  self.asteroid_list)
 
-        # Loop through each colliding sprite, remove it, and add to the score.
+        # Loop through each colliding sprite, remove it, and add to the score
+        # and play a sound
         for extra_life in extra_life_hit_list:
             if not self.good_sound_player or not self.good_sound_player.playing:
                 self.good_sound_player = arcade.play_sound(self.good_sound)
             extra_life.remove_from_sprite_lists()
             self.score += 1
+            # elif len(extra_life_list) == 0
+            #    freeze
 
         for asteroid in asteroid_hit_list:
             if not self.bad_sound_player or not self.bad_sound_player.playing:
                 self.bad_sound_player = arcade.play_sound(self.bad_sound)
             asteroid.remove_from_sprite_lists()
             self.score -= 5
+
+
 
 
 def main():
