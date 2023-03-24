@@ -20,8 +20,8 @@ import os
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 1
-EXTRA_LIFE_COUNT = 5
-ASTEROID_COUNT = 5
+EXTRA_LIFE_COUNT = 10
+ASTEROID_COUNT = 7
 
 
 SCREEN_WIDTH = 800
@@ -265,9 +265,13 @@ class GameView(arcade.View):
             asteroid.remove_from_sprite_lists()
             self.score -= 5
 
-        # Check length of coin list. If it is zero, flip to the
-        # game over view.
+        # Check length of extra life and asteroids list. If it is zero or if
+        # you hit too many asteroids, display the
+        # game over view
         if len(self.extra_life_list) == 0:
+            view = GameOverView()
+            self.window.show_view(view)
+        elif len(self.asteroid_list) == 4:
             view = GameOverView()
             self.window.show_view(view)
 
