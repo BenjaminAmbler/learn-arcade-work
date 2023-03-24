@@ -21,8 +21,8 @@ import os
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.5
 # EXTRA_LIVES_COUNT = 50
-EXTRA_LIFE_COUNT = 50
-ASTEROID_COUNT = 25
+EXTRA_LIFE_COUNT = 1
+ASTEROID_COUNT = 1
 
 
 SCREEN_WIDTH = 800
@@ -210,10 +210,14 @@ class MyGame(arcade.Window):
 
         for asteroid in self.asteroid_list:
             asteroid.follow_sprite(self.player_sprite)
+
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
-        self.extra_life_list.update()
-        self.asteroid_list.update()
+        if len(self.extra_life_list) > 0:
+            self.extra_life_list.update()
+            self.asteroid_list.update()
+        elif len(self.extra_life_list) <=0:
+
 
         # Generate a list of all sprites that collided with the player.
         extra_life_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -228,8 +232,6 @@ class MyGame(arcade.Window):
                 self.good_sound_player = arcade.play_sound(self.good_sound)
             extra_life.remove_from_sprite_lists()
             self.score += 1
-            # elif len(extra_life_list) == 0
-            #    freeze
 
         for asteroid in asteroid_hit_list:
             if not self.bad_sound_player or not self.bad_sound_player.playing:
