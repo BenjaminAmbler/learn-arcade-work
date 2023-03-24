@@ -13,6 +13,30 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 
+class Coin(arcade.Sprite):
+    """
+    This class represents the coins on our screen. It is a child class of
+    the arcade library's "Sprite" class.
+    """
+
+    def reset_pos(self):
+
+        # Reset the coin to a random spot above the screen
+        self.center_y = random.randrange(SCREEN_HEIGHT + 20,
+                                         SCREEN_HEIGHT + 100)
+        self.center_x = random.randrange(SCREEN_WIDTH)
+
+    def update(self):
+
+        # Move the coin
+        self.center_y -= 1
+
+        # See if the coin has fallen off the bottom of the screen.
+        # If so, reset it.
+        if self.top < 0:
+            self.reset_pos()
+
+
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
 
@@ -50,17 +74,18 @@ class MyGame(arcade.Window):
 
         # Set up the player
         # Character image from kenney.nl
-        self.player_sprite = arcade.Sprite(":resources:images/space_shooter/playerShip1_blue.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite = arcade.Sprite(":resources:images/space_shooter/playerShip1_blue.png",
+                                           SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
 
-        # Create the coins
+        # Create the exta lives
         for i in range(COIN_COUNT):
 
-            # Create the coin instance
+            # Create the good sprite instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite(":resources:images/space_shooter/playerLife1_green.png", SPRITE_SCALING_COIN)
+            coin = Coin(":resources:images/space_shooter/playerLife1_green.png", SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
