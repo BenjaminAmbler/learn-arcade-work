@@ -30,7 +30,7 @@ ASTEROID_COUNT = 7
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Dodge the Rocks, Collect the Tiny Green Ships"
+SCREEN_TITLE = "Use the mouse. Dodge the rocks, collect the tiny green ships"
 SPRITE_SPEED = 0.5
 
 
