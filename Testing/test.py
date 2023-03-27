@@ -1,103 +1,142 @@
-"""
-This program shows how to:
-  * Display a sequence of screens in your game.  The "arcade.View"
-    class makes it easy to separate the code for each screen into
-    its own class.
-  * This example shows the absolute basics of using "arcade.View".
-    See the "different_screens_example.py" for how to handle
-    screen-specific data.
-
-Make a separate class for each view (screen) in your game.
-The class will inherit from arcade.View. The structure will
-look like an arcade.Window as each View will need to have its own draw,
-update and window event methods. To switch a View, simply create a View
-with `view = MyView()` and then use the "self.window.set_view(view)" method.
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.view_screens_minimal
-"""
-
+import random
 import arcade
 
+SPRITE_SCALING_PLAYER = 1.5
+SPRITE_SCALING_COIN = 0.5
+SPRITE_SCALING_LASER = 0.8
+COIN_COUNT = 10
 
-WIDTH = 800
-HEIGHT = 600
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
-
-class MenuView(arcade.View):
-    """ Class that manages the 'menu' view. """
-
-    def on_show_view(self):
-        """ Called when switching to this view"""
-        arcade.set_background_color(arcade.color.WHITE)
-
-    def on_draw(self):
-        """ Draw the menu """
-        self.clear()
-        arcade.draw_text("Menu Screen - click to advance", WIDTH / 2, HEIGHT / 2,
-                         arcade.color.BLACK, font_size=30, anchor_x="center")
-
-    def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ Use a mouse press to advance to the 'game' view. """
-        game_view = GameView()
-        game_view.setup()
-        self.window.show_view(game_view)
+BULLET_SPEED = 5
 
 
-class GameView(arcade.View):
-    """ Manage the 'game' view for our program. """
+class MyGame(arcade.Window):
+    """ Main application class. """
 
     def __init__(self):
-        super().__init__()
-        # Create variables here
+        """ Initializer """
+        # Call the parent class initializer
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites and Bullets Demo")
+
+        # Variables that will hold sprite lists
+        self.player_list = None
+        self.coin_list = None
+        self.bullet_list = None
+
+        # Set up the player info
+        self.player_sprite = None
+        self.score = 0
+
+        # Don't show the mouse cursor
+        self.set_mouse_visible(False)
+
+        arcade.set_background_color(arcade.color.AMAZON)
 
     def setup(self):
-        """ This should set up your game and get it ready to play """
-        # Replace 'pass' with the code to set up your game
-        pass
 
-    def on_show_view(self):
-        """ Called when switching to this view"""
-        arcade.set_background_color(arcade.color.ORANGE_PEEL)
+        """ Set up the game and initialize the variables. """
+
+        # Sprite lists
+        self.player_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
+
+        # Set up the player
+        self.score = 0
+
+        # Image from kenney.nl
+
+        """
+        filename – Filename of an image that represents the sprite.
+        scale – Scale the image up or down. Scale of 1.0 is none.
+        image_x – X offset to sprite within sprite sheet.
+        image_y – Y offset to sprite within sprite sheet.
+        image_width – Width of the sprite
+        image_height – Height of the sprite
+        center_x – Location of the sprite
+        center_y – Location of the sprite
+        flipped_horizontally – Mirror the sprite image. Flip left/right across vertical axis.
+        flipped_vertically – Flip the image up/down across the horizontal axis.
+        """
+
+        self.player_sprite = arcade.Sprite(":resources:images/topdown_tanks/tank_blue.png",
+                                           SPRITE_SCALING_PLAYER,
+                                           # image_x = 0,
+                                           # image_y = 0,
+                                           # image_width = 0,
+                                           # image_height = 0,
+                                           # center_x = 0,
+                                           # center_y = 0,
+                                           # flipped_horizontally = False,
+                                           flipped_vertically = True)
+        self.player_sprite.center_x = 50
+        self.player_sprite.center_y = 70
+        self.player_list.append(self.player_sprite)
+
+        # Create the coins
+        for i in range(COIN_COUNT):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            coin = arcade.Sprite(":resources:images/animated_characters/zombie/zombie_fall.png", SPRITE_SCALING_COIN)
+
+            # Position the coin
+            coin.center_x = random.randrange(SCREEN_WIDTH)
+            # add 150 in the code below to keep the zombies above the player
+            coin.center_y = random.randrange(150, SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.coin_list.append(coin)
+
+        # Set the background color
+        arcade.set_background_color(arcade.color.AMAZON)
 
     def on_draw(self):
-        """ Draw everything for the game. """
-        self.clear()
-        arcade.draw_text("Game - press SPACE to advance", WIDTH / 2, HEIGHT / 2,
-                         arcade.color.BLACK, font_size=30, anchor_x="center")
+        """
+        Render the screen.
+        """
 
-    def on_key_press(self, key, _modifiers):
-        """ Handle key presses. In this case, we'll just count a 'space' as
-        game over and advance to the game over view. """
-        if key == arcade.key.SPACE:
-            game_over_view = GameOverView()
-            self.window.show_view(game_over_view)
+        # This command has to happen before we start drawing
+        arcade.start_render()
+
+        # Draw all the sprites.
+        self.coin_list.draw()
+        self.player_list.draw()
+        self.bullet_list.draw()
+
+        # Render the text
+        arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        """
+        Called whenever the mouse moves.
+        """
+        self.player_sprite.center_x = x
+        # Commented out this line to keep the player on the bottom of the screen
+        # self.player_sprite.center_y = y
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        """
+        Called whenever the mouse button is clicked.
+        """
+        # create a bullet
+        bullet = arcade.Sprite("laserBlue01.png, SPRITE_SCALING_LASER")
+        self.bullet_list.append(bullet)
 
 
-class GameOverView(arcade.View):
-    """ Class to manage the game over view """
-    def on_show_view(self):
-        """ Called when switching to this view"""
-        arcade.set_background_color(arcade.color.BLACK)
+    def update(self, delta_time):
+        """ Movement and game logic """
 
-    def on_draw(self):
-        """ Draw the game over view """
-        self.clear()
-        arcade.draw_text("Game Over - press ESCAPE to advance", WIDTH / 2, HEIGHT / 2,
-                         arcade.color.WHITE, 30, anchor_x="center")
-
-    def on_key_press(self, key, _modifiers):
-        """ If user hits escape, go back to the main menu view """
-        if key == arcade.key.ESCAPE:
-            menu_view = MenuView()
-            self.window.show_view(menu_view)
+        # Call update on all sprites
+        self.coin_list.update()
+        self.bullet_list.update()
 
 
 def main():
-    """ Startup """
-    window = arcade.Window(WIDTH, HEIGHT, "Different Views Minimal Example")
-    menu_view = MenuView()
-    window.show_view(menu_view)
+    window = MyGame()
+    window.setup()
     arcade.run()
 
 
