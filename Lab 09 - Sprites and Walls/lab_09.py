@@ -9,7 +9,7 @@ COIN_COUNT = 10
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-BULLET_SPEED = 5
+BULLET_SPEED = 50
 
 
 class MyGame(arcade.Window):
@@ -47,29 +47,8 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Image from kenney.nl
-
-        """
-        filename – Filename of an image that represents the sprite.
-        scale – Scale the image up or down. Scale of 1.0 is none.
-        image_x – X offset to sprite within sprite sheet.
-        image_y – Y offset to sprite within sprite sheet.
-        image_width – Width of the sprite
-        image_height – Height of the sprite
-        center_x – Location of the sprite
-        center_y – Location of the sprite
-        flipped_horizontally – Mirror the sprite image. Flip left/right across vertical axis.
-        flipped_vertically – Flip the image up/down across the horizontal axis.
-        """
-
         self.player_sprite = arcade.Sprite(":resources:images/topdown_tanks/tank_blue.png",
                                            SPRITE_SCALING_PLAYER,
-                                           # image_x = 0,
-                                           # image_y = 0,
-                                           # image_width = 0,
-                                           # image_height = 0,
-                                           # center_x = 0,
-                                           # center_y = 0,
-                                           # flipped_horizontally = False,
                                            flipped_vertically = True)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 70
@@ -114,7 +93,7 @@ class MyGame(arcade.Window):
         Called whenever the mouse moves.
         """
         self.player_sprite.center_x = x
-        # Commented out this line to keep the player on the bottom of the screen
+        # Commented out this line below to keep the player on the bottom of the screen
         # self.player_sprite.center_y = y
 
     def on_mouse_press(self, x, y, button, modifiers):
@@ -122,11 +101,17 @@ class MyGame(arcade.Window):
         Called whenever the mouse button is clicked.
         """
         # create a bullet
-        bullet = arcade.Sprite("laserBlue01.png, SPRITE_SCALING_LASER")
+        bullet = arcade.Sprite("laserBlue01.png", SPRITE_SCALING_LASER)
+        #this rotates the laser
+        bullet.angle = 90
+        # this postitions the laser
+        bullet.center_x = self.player_sprite.center_x
+        bullet.bottom = self.player_sprite.top
 
         bullet.center_x = x
         bullet.center_y = y
 
+# this adds the laser to the right list
         self.bullet_list.append(bullet)
 
 
@@ -136,6 +121,25 @@ class MyGame(arcade.Window):
         # Call update on all sprites
         self.coin_list.update()
         self.bullet_list.update()
+
+        # Loop through each bullet
+        for bullet in self.bullet_list:
+
+            # Check this bullet to see if it hit a coin
+            hit_list = arcade.check_for_collision_with_list(bullet, self.coin_list)
+
+            # If it did, get rid of the bullet
+            if len(hit_list) > 0:
+                bullet.remove_from_sprite_lists()
+
+            # For every coin we hit, add to the score and remove the coin
+            for coin in hit_list:
+                coin.remove_from_sprite_lists()
+                self.score += 1
+
+            # If the bullet flies off-screen, remove it.
+            if bullet.bottom > SCREEN_HEIGHT:
+                bullet.remove_from_sprite_lists()
 
 
 def main():

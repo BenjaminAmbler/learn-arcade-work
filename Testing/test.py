@@ -1,10 +1,10 @@
 import random
 import arcade
 
-SPRITE_SCALING_PLAYER = 1.5
-SPRITE_SCALING_COIN = 0.5
+SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
-COIN_COUNT = 10
+COIN_COUNT = 50
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -47,30 +47,7 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Image from kenney.nl
-
-        """
-        filename – Filename of an image that represents the sprite.
-        scale – Scale the image up or down. Scale of 1.0 is none.
-        image_x – X offset to sprite within sprite sheet.
-        image_y – Y offset to sprite within sprite sheet.
-        image_width – Width of the sprite
-        image_height – Height of the sprite
-        center_x – Location of the sprite
-        center_y – Location of the sprite
-        flipped_horizontally – Mirror the sprite image. Flip left/right across vertical axis.
-        flipped_vertically – Flip the image up/down across the horizontal axis.
-        """
-
-        self.player_sprite = arcade.Sprite(":resources:images/topdown_tanks/tank_blue.png",
-                                           SPRITE_SCALING_PLAYER,
-                                           # image_x = 0,
-                                           # image_y = 0,
-                                           # image_width = 0,
-                                           # image_height = 0,
-                                           # center_x = 0,
-                                           # center_y = 0,
-                                           # flipped_horizontally = False,
-                                           flipped_vertically = True)
+        self.player_sprite = arcade.Sprite("character.png", SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 70
         self.player_list.append(self.player_sprite)
@@ -80,12 +57,11 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite(":resources:images/animated_characters/zombie/zombie_fall.png", SPRITE_SCALING_COIN)
+            coin = arcade.Sprite("coin_01.png", SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
-            # add 150 in the code below to keep the zombies above the player
-            coin.center_y = random.randrange(150, SCREEN_HEIGHT)
+            coin.center_y = random.randrange(120, SCREEN_HEIGHT)
 
             # Add the coin to the lists
             self.coin_list.append(coin)
@@ -103,8 +79,8 @@ class MyGame(arcade.Window):
 
         # Draw all the sprites.
         self.coin_list.draw()
-        self.player_list.draw()
         self.bullet_list.draw()
+        self.player_list.draw()
 
         # Render the text
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
@@ -114,21 +90,25 @@ class MyGame(arcade.Window):
         Called whenever the mouse moves.
         """
         self.player_sprite.center_x = x
-        # Commented out this line to keep the player on the bottom of the screen
-        # self.player_sprite.center_y = y
 
     def on_mouse_press(self, x, y, button, modifiers):
         """
         Called whenever the mouse button is clicked.
         """
-        # create a bullet
-        bullet = arcade.Sprite("laserBlue01.png, SPRITE_SCALING_LASER")
 
-        bullet.center_x = x
-        bullet.center_y = y
+        # Create a bullet
+        bullet = arcade.Sprite("laserBlue01.png", SPRITE_SCALING_LASER)
 
+        # The image points to the right, and we want it to point up. So
+        # rotate it.
+        bullet.angle = 90
+
+        # Position the bullet
+        bullet.center_x = self.player_sprite.center_x
+        bullet.bottom = self.player_sprite.top
+
+        # Add the bullet to the appropriate lists
         self.bullet_list.append(bullet)
-
 
     def update(self, delta_time):
         """ Movement and game logic """
@@ -136,6 +116,25 @@ class MyGame(arcade.Window):
         # Call update on all sprites
         self.coin_list.update()
         self.bullet_list.update()
+
+        # Loop through each bullet
+        for bullet in self.bullet_list:
+
+            # Check this bullet to see if it hit a coin
+            hit_list = arcade.check_for_collision_with_list(bullet, self.coin_list)
+
+            # If it did, get rid of the bullet
+            if len(hit_list) > 0:
+                bullet.remove_from_sprite_lists()
+
+            # For every coin we hit, add to the score and remove the coin
+            for coin in hit_list:
+                coin.remove_from_sprite_lists()
+                self.score += 1
+
+            # If the bullet flies off-screen, remove it.
+            if bullet.bottom > SCREEN_HEIGHT:
+                bullet.remove_from_sprite_lists()
 
 
 def main():
