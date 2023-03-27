@@ -123,6 +123,10 @@ class MyGame(arcade.Window):
         """
         # create a bullet
         bullet = arcade.Sprite("laserBlue01.png, SPRITE_SCALING_LASER")
+
+        bullet.center_x = x
+        bullet.center_y = y
+
         self.bullet_list.append(bullet)
 
 
