@@ -107,9 +107,10 @@ class MyGame(arcade.Window):
         # this postitions the laser
         bullet.center_x = self.player_sprite.center_x
         bullet.bottom = self.player_sprite.top
-
-        bullet.center_x = x
-        bullet.center_y = y
+        bullet.change_y = BULLET_SPEED
+        #bullet.center_x = x
+        # want to fix this, y = player
+        #bullet.center_y = y
 
 # this adds the laser to the right list
         self.bullet_list.append(bullet)
