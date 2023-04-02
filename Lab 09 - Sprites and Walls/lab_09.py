@@ -10,22 +10,26 @@ This uses a scrolling screen
 import random
 import arcade
 from pyglet.math import Vec2
+import os
 
 SPRITE_SCALING = 0.5
+SPRITE_SCALING_COIN = 0.5
+COIN_COUNT = 30
 
 DEFAULT_SCREEN_WIDTH = 800
 DEFAULT_SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Lab 9 with scrolling screen"
+SCREEN_TITLE = "Use To Move Around. Get All Of The Keys"
+
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
-VIEWPORT_MARGIN = 220
+VIEWPORT_MARGIN = 520
 
 # How fast the camera pans to the player. 1.0 is instant.
 CAMERA_SPEED = 0.1
 
 # How fast the character moves
-PLAYER_MOVEMENT_SPEED = 7
+PLAYER_MOVEMENT_SPEED = 5
 
 
 class MyGame(arcade.Window):
@@ -37,15 +41,33 @@ class MyGame(arcade.Window):
         """
         super().__init__(width, height, title, resizable=True)
 
+        # Load the sound when the application starts
+        self.explosion_sound = arcade.load_sound(":resources:music/1918.mp3")
+        self.explosion_sound_player = None
+        if not self.explosion_sound_player or not self.explosion_sound_player.playing:
+            self.explosion_sound_player = arcade.play_sound(self.explosion_sound)
+
+        # Set the working directory (where we expect to find files) to the same
+        # directory this .py file is in. You can leave this out of your own
+        # code, but it is needed to easily run the examples using "python -m"
+        # as mentioned at the top of this program.
+        file_path = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
+
+        # good sound instance variable
+        self.good_sound = arcade.load_sound(":resources:sounds/coin5.wav")
+        self.good_sound_player = None
+
         # Sprite lists
-        self.player_list = None
-        self.wall_list = None
+        self.all_sprites_list = None
+        self.coin_list = None
 
         # Set up the player
+        # self.player_list = None
         self.player_sprite = None
-
-        # Physics engine so we don't run into walls.
+        self.wall_list = None
         self.physics_engine = None
+        self.score = 0
 
         # Track the current state of what key is pressed
         self.left_pressed = False
@@ -69,53 +91,140 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
+
+        # Score
+        self.score = 0
 
         # Set up the player
         self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png",
-                                           scale=0.4)
+                                           scale=0.5)
         self.player_sprite.center_x = 256
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
 
-        # -- Set up vertical walls of trees
-        for x in range(0, 1000, 999):
-            for y in range(0, 1000, 32):
-                    wall = arcade.Sprite(":resources:images/topdown_tanks/treeBrown_large.png", SPRITE_SCALING)
+        # # Create the coins
+        # for i in range(COIN_COUNT):
+        #     # Create the coin instance
+        #     # Coin image from kenney.nl
+        #     coin = arcade.Sprite(":resources:images/items/keyBlue.png", SPRITE_SCALING_COIN)
+        #
+        #     # Position the coin
+        #     coin.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+        #     coin.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+        #
+        #     # Add the coin to the lists
+        #     self.coin_list.append(coin)
+
+
+        # set up outside vertical walls
+        for x in range(0, 1280, 1279):
+            for y in range(0, 1280, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/stone.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
                     self.wall_list.append(wall)
 
-        # -- Set up horizontal outside walls of trees
-        for y in range(0, 1000, 999):
-            for x in range(0, 1000, 32):
-                    wall = arcade.Sprite(":resources:images/topdown_tanks/treeBrown_large.png", SPRITE_SCALING)
+        # set up horizontal outside walls
+        for y in range(0, 1280, 1279):
+            for x in range(0, 1344, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/stone.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
                     self.wall_list.append(wall)
 
         # -- Set up first bottom horizontal snow wall
-        for y in range(454, 1000, 999):
-            for x in range(50, 950, 64):
+        for y in range(454, 455):
+            for x in range(64, 950, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall layer 1 left side
+        for y in range(354, 355):
+            for x in range(64, 400, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall layer 1 right side
+        for y in range(554, 555):
+            for x in range(564, 980, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall layer 2 left side
+        for y in range(654, 655):
+            for x in range(64, 100, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall layer 2 more left side
+        for y in range(654, 655):
+            for x in range(264, 700, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall layer 2 more left side
+        for y in range(654, 655):
+            for x in range(864, 980, 64):
                     wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
                     self.wall_list.append(wall)
 
 
-        # # --- Place walls with a list
-        # coordinate_list = [[32, 500],
-        #                    [32, 436],
-        #                    [32, 570],
-        #                    [32, 570]]
+        # # place a few keys to collect with a list
+        # coordinate_list = [64, 500], [500, 600], [200, 700], [1000, 800]
         #
         # # Loop through coordinates
         # for coordinate in coordinate_list:
-        #     wall = arcade.Sprite(":resources:images/topdown_tanks/treeBrown_large.png", SPRITE_SCALING)
+        #     wall = arcade.Sprite(":resources:images/items/keyBlue.png", SPRITE_SCALING)
         #     wall.center_x = coordinate[0]
         #     wall.center_y = coordinate[1]
         #     self.wall_list.append(wall)
 
+            # -- Randomly place coins where there are no walls
+            # Create the coins
+            for i in range(COIN_COUNT):
 
+                # Create the coin instance
+                # Coin image from kenney.nl
+                coin = arcade.Sprite(":resources:images/items/keyBlue.png", SPRITE_SCALING_COIN)
+
+                # --- IMPORTANT PART ---
+
+                # Boolean variable if we successfully placed the coin
+                coin_placed_successfully = False
+
+                # Keep trying until success
+                while not coin_placed_successfully:
+                    # Position the coin
+                    coin.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+                    coin.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+
+                    # See if the coin is hitting a wall
+                    wall_hit_list = arcade.check_for_collision_with_list(coin, self.wall_list)
+
+                    # See if the coin is hitting another coin
+                    coin_hit_list = arcade.check_for_collision_with_list(coin, self.coin_list)
+
+                    if len(wall_hit_list) == 0 and len(coin_hit_list) == 0:
+                        # It is!
+                        coin_placed_successfully = True
+
+                # Add the coin to the lists
+                self.coin_list.append(coin)
+
+                # --- END OF IMPORTANT PART ---
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
@@ -137,7 +246,11 @@ class MyGame(arcade.Window):
         # Draw all the sprites.
         self.wall_list.draw()
         self.player_list.draw()
+        self.coin_list.draw()
 
+        # Put the score on the screen.
+        # output = f"Score: {self.score}"
+        # arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
 
         # Select the (unscrolled) camera for our GUI
 
@@ -150,9 +263,8 @@ class MyGame(arcade.Window):
                                      self.width,
                                      40,
                                      arcade.color.ALMOND)
-        text = f"Scroll value: ({self.camera_sprites.position[0]:5.1f}, " \
-               f"{self.camera_sprites.position[1]:5.1f})"
-        arcade.draw_text(text, 10, 10, arcade.color.BLACK_BEAN, 20)
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.BLUE, 14)
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -193,6 +305,21 @@ class MyGame(arcade.Window):
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
         elif self.right_pressed and not self.left_pressed:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+
+        # Call update on all sprites (The sprites don't do much in this
+        # example though.)
+        self.coin_list.update()
+
+        # Generate a list of all sprites that collided with the player.
+        coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.coin_list)
+
+        # Loop through each colliding sprite, remove it, and add to the score.
+        for coin in coins_hit_list:
+            if not self.good_sound_player or not self.good_sound_player.playing:
+                self.good_sound_player = arcade.play_sound(self.good_sound)
+            coin.remove_from_sprite_lists()
+            self.score += 1
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
