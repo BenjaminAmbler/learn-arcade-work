@@ -16,8 +16,8 @@ SPRITE_SCALING = 0.5
 SPRITE_SCALING_COIN = 0.5
 COIN_COUNT = 30
 
-DEFAULT_SCREEN_WIDTH = 800
-DEFAULT_SCREEN_HEIGHT = 600
+DEFAULT_SCREEN_WIDTH = 1500
+DEFAULT_SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Use To Move Around. Get All Of The Keys"
 
 
@@ -133,9 +133,17 @@ class MyGame(arcade.Window):
                     wall.center_y = y
                     self.wall_list.append(wall)
 
-        # -- Set up first bottom horizontal snow wall
+        # set up first bottom horizontal snow wall
         for y in range(454, 455):
-            for x in range(64, 950, 64):
+            for x in range(64, 400, 64):
+                    wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
+        # snow wall first layer right side
+            for y in range(454, 455):
+                for x in range(564, 1200, 64):
                     wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
@@ -150,7 +158,7 @@ class MyGame(arcade.Window):
                     self.wall_list.append(wall)
 
         # snow wall layer 1 right side
-        for y in range(554, 555):
+        for y in range(354, 355):
             for x in range(564, 980, 64):
                     wall = arcade.Sprite(":resources:images/tiles/snowHalf.png", SPRITE_SCALING)
                     wall.center_x = x
@@ -208,8 +216,8 @@ class MyGame(arcade.Window):
                 # Keep trying until success
                 while not coin_placed_successfully:
                     # Position the coin
-                    coin.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
-                    coin.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+                    coin.center_x = random.randrange(0, 1200)
+                    coin.center_y = random.randrange(0, 1200)
 
                     # See if the coin is hitting a wall
                     wall_hit_list = arcade.check_for_collision_with_list(coin, self.wall_list)
