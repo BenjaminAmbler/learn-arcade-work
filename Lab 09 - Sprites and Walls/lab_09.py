@@ -14,12 +14,27 @@ import os
 
 SPRITE_SCALING = 0.5
 SPRITE_SCALING_COIN = 0.5
-COIN_COUNT = 30
+COIN_COUNT = 5
 
 DEFAULT_SCREEN_WIDTH = 1500
 DEFAULT_SCREEN_HEIGHT = 700
-SCREEN_TITLE = "Use To Move Around. Get All Of The Keys"
+SCREEN_TITLE = "Use The Arrow Keys To Move Around. Get All Of The Keys"
 
+# How fast to move, and how fast to run the animation
+PLAYER_MOVEMENT_SPEED = 7
+
+# Constants used to track if the player is facing left or right
+RIGHT_FACING = 0
+LEFT_FACING = 1
+
+def load_texture_pair(filename):
+    """
+    Load a texture pair, with the second being a mirror image.
+    """
+    return [
+        arcade.load_texture(filename),
+        arcade.load_texture(filename, flipped_horizontally=True)
+    ]
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -28,8 +43,7 @@ VIEWPORT_MARGIN = 520
 # How fast the camera pans to the player. 1.0 is instant.
 CAMERA_SPEED = 0.1
 
-# How fast the character moves
-PLAYER_MOVEMENT_SPEED = 5
+
 
 
 class MyGame(arcade.Window):
@@ -40,6 +54,7 @@ class MyGame(arcade.Window):
         Initializer
         """
         super().__init__(width, height, title, resizable=True)
+
 
         # Load the sound when the application starts
         self.explosion_sound = arcade.load_sound(":resources:music/1918.mp3")
