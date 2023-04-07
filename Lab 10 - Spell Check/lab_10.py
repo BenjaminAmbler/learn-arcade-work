@@ -26,7 +26,6 @@ def read_in_dictionary():
     # Loop through each line in the file like a list
     for line in dictionary_file:
 
-
         # Add the name to the list
         words_in_dictionary_list.append(line)
 
@@ -34,36 +33,22 @@ def read_in_dictionary():
 
     # uncomment the line below to print out how many words are in the
     # dictionary to be able to see if this thing is working so far:
-    # print( "There are", len(words_in_dictionary_list), "words in this dictionary file.")
+    print("There are", len(words_in_dictionary_list), "words in this dictionary file.")
 
-    return words_in_dictionary_list
+    #return words_in_dictionary_list
 
-def linear_search(key, words_in_dictionary_list):
-    """ Linear search """
+print( " --- Linear Search --- " )
+alice_in_wonderland_file = open("AliceInWonderLand200.txt")
+# do not create an empty list to put this in like we did for the dictionary,
+# per the instructions on step 10 here:
+# https://learn.arcade.academy/en/latest/labs/lab_10_spell_check/spell_check.html
 
-    # Start at the beginning of the list
-    current_list_position = 0
-
-    # Loop until you reach the end of the list, or the value at the
-    # current position is equal to the key
-    while current_list_position < len(words_in_dictionary_list) and words_in_dictionary_list[current_list_position] != key:
-
-        # Advance to the next item in the list
-        current_list_position += 1
-
-    return current_list_position
+    # step 11
+    for line in alice_in_wonderland_file:
+        return = split_line:
 
 
-def main():
-
-    key = "Morgiana the Shrew"
-    words_in_dictionary_list = read_in_dictionary("dictionary.txt")
-    list_position = linear_search(key, words_in_dictionary_list)
-
-    if list_position < len(words_in_dictionary_list):
-        print("The name", key, "is at position", list_position)
-    else:
-        print("The name", key, "was not in the list.")
 
 
-main()
+
+
