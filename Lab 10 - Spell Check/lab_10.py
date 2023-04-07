@@ -70,7 +70,6 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
             # each word in the line)
             for line in word_list:
                 word = split_line(word_list)
-
 # Step 14, using a linear search, check the current word against the words in the
 # dictionary. See Linear Search Algorithm for example code on how to do this.
 # The linear search is just three lines long. When comparing to the word to the other
@@ -78,27 +77,24 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
 # word.upper() instead of word for the key. This linear search will exist inside the
 # for loop created in the prior step. We are looping through each word in the dictionary,
 # looking for the current word in the line that we just read in.
+            # --- Linear search
+            word = word.upper()
 
-# --- Linear search
-key = "Morgiana the Shrew"
+            # Start at the beginning of the list
+            current_list_position = 0
 
-# Start at the beginning of the list
-current_list_position = 0
+            # Loop until you reach the end of the list, or the value at the
+            # current position is equal to the key
+            while current_list_position < len(words_in_dictionary_list) \
+                    and words_in_dictionary_list[current_list_position] != word:
 
-# Loop until you reach the end of the list, or the value at the
-# current position is equal to the key
-while current_list_position < len(words_in_dictionary_list) and words_in_dictionary_list[current_list_position] != key:
+                # Advance to the next item in the list
+                current_list_position += 1
 
-    # Advance to the next item in the list
-    current_list_position += 1
-
-if current_list_position < len(words_in_dictionary_list):
-    print("The name is at position", current_list_position)
-else:
-    print("The name was not in the list.")
-
-
-
+            if current_list_position < len(words_in_dictionary_list):
+                print("The word is at position", current_list_position)
+            else:
+                print("The word was not in the dictionary.")
 
 
 
