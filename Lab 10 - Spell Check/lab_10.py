@@ -85,16 +85,16 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
 
         # Loop until you reach the end of the list, or the value at the
         # current position is equal to the word
-        while current_list_position < len(words_in_dictionary_list) \
-            and words_in_dictionary_list[current_list_position] != word.upper():
+            while current_list_position < len(words_in_dictionary_list) \
+                and words_in_dictionary_list[current_list_position] != word.upper():
 
-            # Advance to the next item in the list
-            current_list_position += 1
+                # Advance to the next item in the list
+                current_list_position += 1
 
-        if current_list_position < len(words_in_dictionary_list):
-            print("The word is at position", current_list_position)
-        else:
-            print("The word was not in the dictionary.")
+            if current_list_position < len(words_in_dictionary_list):
+                print("The word is at position", current_list_position)
+            else:
+                print("The word was not in the dictionary.")
 
 
 
