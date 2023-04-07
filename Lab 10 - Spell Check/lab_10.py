@@ -45,7 +45,7 @@ def main():
     # dictionary to be able to see if this thing is working so far:
     print("There are", len(words_in_dictionary_list), "words in this dictionary file.")
 
-    return words_in_dictionary_list
+    #return words_in_dictionary_list
 
 # Step 8, print --- Linear Search ---
 print(" --- Linear Search --- ")
@@ -70,13 +70,13 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
             # each word in the line)
             for line in word_list:
                 word = split_line(word_list)
-# Step 14, using a linear search, check the current word against the words in the
-# dictionary. See Linear Search Algorithm for example code on how to do this.
-# The linear search is just three lines long. When comparing to the word to the other
-# words in the dictionary, convert the word to uppercase. In your while loop just use
-# word.upper() instead of word for the key. This linear search will exist inside the
-# for loop created in the prior step. We are looping through each word in the dictionary,
-# looking for the current word in the line that we just read in.
+        # Step 14, using a linear search, check the current word against the words in the
+        # dictionary. See Linear Search Algorithm for example code on how to do this.
+        # The linear search is just three lines long. When comparing to the word to the other
+        # words in the dictionary, convert the word to uppercase. In your while loop just use
+        # word.upper() instead of word for the key. This linear search will exist inside the
+        # for loop created in the prior step. We are looping through each word in the dictionary,
+        # looking for the current word in the line that we just read in.
             # --- Linear search
             word = word.upper()
 
@@ -84,7 +84,7 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
             current_list_position = 0
 
             # Loop until you reach the end of the list, or the value at the
-            # current position is equal to the key
+            # current position is equal to the word
             while current_list_position < len(words_in_dictionary_list) \
                     and words_in_dictionary_list[current_list_position] != word:
 
