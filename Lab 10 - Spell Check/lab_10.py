@@ -71,6 +71,14 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
             for line in word_list:
                 word = split_line(word_list)
 
+# Step 14, using a linear search, check the current word against the words in the
+# dictionary. See Linear Search Algorithm for example code on how to do this.
+# The linear search is just three lines long. When comparing to the word to the other
+# words in the dictionary, convert the word to uppercase. In your while loop just use
+# word.upper() instead of word for the key. This linear search will exist inside the
+# for loop created in the prior step. We are looping through each word in the dictionary,
+# looking for the current word in the line that we just read in.
+
 
 
 
