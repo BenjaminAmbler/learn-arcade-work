@@ -45,7 +45,7 @@ def main():
     # dictionary to be able to see if this thing is working so far:
     print("There are", len(words_in_dictionary_list), "words in this dictionary file.")
 
-    #return words_in_dictionary_list
+    return words_in_dictionary_list
 
 # Step 8, print --- Linear Search ---
 print(" --- Linear Search --- ")
@@ -78,6 +78,25 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
 # word.upper() instead of word for the key. This linear search will exist inside the
 # for loop created in the prior step. We are looping through each word in the dictionary,
 # looking for the current word in the line that we just read in.
+
+# --- Linear search
+key = "Morgiana the Shrew"
+
+# Start at the beginning of the list
+current_list_position = 0
+
+# Loop until you reach the end of the list, or the value at the
+# current position is equal to the key
+while current_list_position < len(words_in_dictionary_list) and words_in_dictionary_list[current_list_position] != key:
+
+    # Advance to the next item in the list
+    current_list_position += 1
+
+if current_list_position < len(words_in_dictionary_list):
+    print("The name is at position", current_list_position)
+else:
+    print("The name was not in the list.")
+
 
 
 
