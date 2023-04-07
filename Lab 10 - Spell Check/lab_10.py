@@ -12,7 +12,7 @@
 # Step 5, import re which stands for regular expression. Next, use this function
 # which takes in a line of text and returns
 # a list of words from that line, but now the words are stripped of any
-# extra punctuation.
+# extra punctuation.l
 
 import re
 
