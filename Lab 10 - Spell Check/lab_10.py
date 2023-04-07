@@ -64,7 +64,14 @@ alice_in_wonderland_file = open("AliceInWonderLand200.txt")
     # into a new variable named word_list.
         word_list = split_line(alice_in_wonderland_file)
 
-            # Step 13 start a nested for loop to iterate through each word in the word list.
+            # Step 13 start a nested for loop to iterate through each word in the
+            # word list. This should be inside of the for loop that runs through
+            # each line in the file. (One loop for each line, another loop for
+            # each word in the line)
+            for line in word_list:
+                word = split_line(word_list)
+
+
 
 
 
