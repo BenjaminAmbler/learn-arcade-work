@@ -11,7 +11,7 @@ def main():
     # Loop through each line in the file like a list
     for line in my_file:
         # Remove any line feed, carriage returns or spaces at the end of the line
-        line = line.strip()
+        word_list = line.strip()
 
         # Add the name to the list
         name_list.append(line)
