@@ -32,7 +32,7 @@ def main():
 
     dictionary_file.close()
 
-    print( "There were", len(words_in_dictionary_list), "words in the dictionary file.")
+    print( "There are", len(words_in_dictionary_list), "words in this dictionary file.")
 
 
 main()
