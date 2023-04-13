@@ -1,6 +1,8 @@
 """
 Ben's Platformer
 """
+import math
+import os
 import arcade
 
 # --- Constants
@@ -12,8 +14,8 @@ SCREEN_HEIGHT = 650
 CHARACTER_SCALING = 0.5
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
-SPRITE_PIXEL_SIZE = 128
-GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
+# SPRITE_PIXEL_SIZE = 128
+# GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
@@ -73,6 +75,8 @@ class MyGame(arcade.Window):
         # self.shoot_sound = arcade.load_sound(":resources:sounds/hurt5.wav")
         # self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
 
+        arcade.set_background_color(arcade.color.SKY_BLUE)
+
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
@@ -81,7 +85,7 @@ class MyGame(arcade.Window):
         self.camera_gui = arcade.Camera(self.width, self.height)
 
         # Name of map file to load
-        map_name = "bens_map.tmx"#":resources:tiled_maps/map.json"
+        map_name = "bens_map.tmx"
 
         # Layer specific options are defined based on Layer names in a dictionary
         # Doing this will make the SpriteList for the platforms layer
