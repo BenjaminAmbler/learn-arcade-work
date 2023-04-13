@@ -19,7 +19,7 @@ GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 7
-GRAVITY = 1.5
+GRAVITY = 1
 PLAYER_JUMP_SPEED = 30
 
 # Player starting position
@@ -108,28 +108,19 @@ class MyGame(arcade.Window):
 
         # Name of map file to load
         map_name = "bens_map.tmx"
-        # Might need to change the map name to something more like this format,
-        # ************* ask Scott ****************
-        # map_name = f":resources:tiled_maps/map2_level_{self.level}.json"
-
-        # # Layer specific options are defined based on Layer names in a dictionary
-        # # Doing this will make the SpriteList for the platforms layer
-        # # use spatial hashing for detection.
-        # layer_options = {
-        #     "Platforms": {
-        #         "use_spatial_hash": True,
-        #     },
-        # }
 
         # Layer Specific Options for the Tilemap
         layer_options = {
             LAYER_NAME_PLATFORMS: {
                 "use_spatial_hash": True,
             },
-            LAYER_NAME_COINS: {
+            LAYER_NAME_MOVING_PLATFORMS: {
+                "use_spatial_hash": False,
+            },
+            LAYER_NAME_LADDERS: {
                 "use_spatial_hash": True,
             },
-            LAYER_NAME_DONT_TOUCH: {
+            LAYER_NAME_COINS: {
                 "use_spatial_hash": True,
             },
         }
@@ -145,9 +136,9 @@ class MyGame(arcade.Window):
         # self.score = 0
 
         # Keep track of the score, make sure we keep the score if the player finishes a level
-        if self.reset_score:
-            self.score = 0
-        self.reset_score = True
+        # if self.reset_score:
+        #     self.score = 0
+        # self.reset_score = True
 
         # Add Player Spritelist before "Foreground" layer. This will make the foreground
         # be drawn after the player, making it appear to be in front of the Player.
@@ -185,8 +176,10 @@ class MyGame(arcade.Window):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite,
+            platforms=self.scene[LAYER_NAME_MOVING_PLATFORMS],
             gravity_constant=GRAVITY,
-            walls=self.scene[LAYER_NAME_PLATFORMS],
+            ladders=self.scene[LAYER_NAME_LADDERS],
+            walls=self.scene[LAYER_NAME_PLATFORMS]
         )
 
     def on_draw(self):
@@ -228,30 +221,33 @@ class MyGame(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
-        # Jump
         if key == arcade.key.UP or key == arcade.key.W:
-            if self.physics_engine.can_jump():
+            if self.physics_engine.is_on_ladder():
+                self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
+            elif self.physics_engine.can_jump():
                 self.player_sprite.change_y = PLAYER_JUMP_SPEED
-                # play the jump sound
                 arcade.play_sound(self.jump_sound)
-        # Left
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            if self.physics_engine.is_on_ladder():
+                self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_key_down = True
-            self.update_player_speed()
-
-        # Right
+            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_key_down = True
-            self.update_player_speed()
+            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
-        if key == arcade.key.LEFT or key == arcade.key.A:
-            self.left_key_down = False
-            self.update_player_speed()
+
+        if key == arcade.key.UP or key == arcade.key.W:
+            if self.physics_engine.is_on_ladder():
+                self.player_sprite.change_y = 0
+        elif key == arcade.key.DOWN or key == arcade.key.S:
+            if self.physics_engine.is_on_ladder():
+                self.player_sprite.change_y = 0
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.right_key_down = False
-            self.update_player_speed()
+            self.player_sprite.change_x = 0
 
     def center_camera_to_player(self):
         # Find where player is, then calculate lower left corner from that
