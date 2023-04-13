@@ -18,20 +18,23 @@ SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 10
-GRAVITY = 1
-PLAYER_JUMP_SPEED = 20
+PLAYER_MOVEMENT_SPEED = 7
+GRAVITY = 1.5
+PLAYER_JUMP_SPEED = 30
 
 # Player starting position
 PLAYER_START_X = 64
 PLAYER_START_Y = 225
 
 # Layer Names from our TileMap
+LAYER_NAME_MOVING_PLATFORMS = "Moving Platforms"
 LAYER_NAME_PLATFORMS = "Platforms"
+LAYER_NAME_LADDERS = "Ladders"
 LAYER_NAME_COINS = "Coins"
 LAYER_NAME_FOREGROUND = "Foreground"
 LAYER_NAME_BACKGROUND = "Background"
 LAYER_NAME_DONT_TOUCH = "Don't Touch"
+
 
 
 class MyGame(arcade.Window):
@@ -40,10 +43,17 @@ class MyGame(arcade.Window):
     """
 
     def __init__(self):
+        """
+        Initializer for the game
+        """
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
                          SCREEN_TITLE, resizable=True)
+
+        # Set the path to start with this program
+        file_path = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
 
         # Our TileMap Object
         self.tile_map = None
@@ -72,8 +82,9 @@ class MyGame(arcade.Window):
         # Where is the right edge of the map?
         self.end_of_map = 0
 
-        # Level
-        self.level = 1
+        # uncomment this to add levels
+        # # Level
+        # self.level = 1
 
         # What key is pressed down?
         self.left_key_down = False
