@@ -34,7 +34,8 @@ LAYER_NAME_COINS = "Coins"
 LAYER_NAME_FOREGROUND = "Foreground"
 LAYER_NAME_BACKGROUND = "Background"
 LAYER_NAME_DONT_TOUCH = "Don't Touch"
-
+LAYER_NAME_DOOR = "Door"
+LAYER_NAME_SWITCH = "Switch"
 
 
 class MyGame(arcade.Window):
@@ -123,6 +124,12 @@ class MyGame(arcade.Window):
             LAYER_NAME_COINS: {
                 "use_spatial_hash": True,
             },
+            LAYER_NAME_SWITCH: {
+                "use_spatial_hash": True,
+            },
+            LAYER_NAME_DOOR: {
+                "use_spatial_hash": False,
+            },
         }
 
         # Load in TileMap
@@ -137,7 +144,7 @@ class MyGame(arcade.Window):
 
         # Keep track of the score, make sure we keep the score if the player finishes a level
         # if self.reset_score:
-        #     self.score = 0
+        # self.score = 0
         # self.reset_score = True
 
         # Add Player Spritelist before "Foreground" layer. This will make the foreground
@@ -192,7 +199,6 @@ class MyGame(arcade.Window):
         self.camera_sprites.use()
 
         # Draw our Scene
-        # Note, if you a want pixelated look, add pixelated=True to the parameters
         self.scene.draw()
 
         # Activate the GUI camera before drawing GUI elements
@@ -279,6 +285,20 @@ class MyGame(arcade.Window):
         for coin in coin_hit_list:
             # Remove the coin
             coin.remove_from_sprite_lists()
+            # play the coin sound
+            arcade.play_sound(self.collect_coin_sound)
+            # Add one to the score
+            self.score += 1
+
+        # See if we hit the switch
+        switch_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.scene[LAYER_NAME_SWITCH]
+        )
+
+        # Loop through each switch we hit (if any) and remove it
+        for switch in switch_hit_list:
+            # Remove the coin
+            switch.remove_from_sprite_lists()
             # play the coin sound
             arcade.play_sound(self.collect_coin_sound)
             # Add one to the score
