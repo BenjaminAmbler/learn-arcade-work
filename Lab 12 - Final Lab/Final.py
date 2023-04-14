@@ -37,8 +37,79 @@ LAYER_NAME_DONT_TOUCH = "Don't Touch"
 LAYER_NAME_DOOR = "Door"
 LAYER_NAME_SWITCH = "Switch"
 
+class InstructionView(arcade.View):
+    def on_show_view(self):
+        """ This is run once when we switch to this view """
+        arcade.set_background_color(arcade.csscolor.DARK_SLATE_BLUE)
 
-class MyGame(arcade.Window):
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        arcade.draw_text("Instructions Screen", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_text("Click to advance", self.window.width / 2, self.window.height / 2 - 75,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+
+        # respond to a mouse click
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, start the game. """
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+class GameOverView(arcade.View):
+    """ View to show when game is over """
+
+    def __init__(self):
+        """ This is run once when we switch to this view """
+        super().__init__()
+        self.texture = arcade.load_texture("game_over.png")
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, SCREEN_WIDTH - 1, 0, SCREEN_HEIGHT - 1)
+
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        self.texture.draw_sized(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+                                SCREEN_WIDTH, SCREEN_HEIGHT)
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, re-start the game. """
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+class YouWinView(arcade.View):
+    def on_show_view(self):
+        """ This is run once when we switch to this view """
+        arcade.set_background_color(arcade.csscolor.BLACK)
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        arcade.draw_text("You Win!", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_text("Click to play again", self.window.width / 2, self.window.height / 2 - 75,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+
+        # respond to a mouse click
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, re-start the game. """
+        game_view = GameView()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+class GameView(arcade.View):
     """
     Main application class.
     """
@@ -49,8 +120,9 @@ class MyGame(arcade.Window):
         """
 
         # Call the parent class and set up the window
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
-                         SCREEN_TITLE, resizable=True)
+        #super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
+        #                 SCREEN_TITLE, resizable=True)
+        super().__init__()
 
         # Set the path to start with this program
         file_path = os.path.dirname(os.path.abspath(__file__))
@@ -104,8 +176,8 @@ class MyGame(arcade.Window):
         """Set up the game here. Call this function to restart the game."""
 
         # Setup the Cameras
-        self.camera_sprites = arcade.Camera(self.width, self.height)
-        self.camera_gui = arcade.Camera(self.width, self.height)
+        self.camera_sprites = arcade.Camera(self.window.width, self.window.height)
+        self.camera_gui = arcade.Camera(self.window.width, self.window.height)
 
         # Name of map file to load
         map_name = "bens_map.tmx"
@@ -290,6 +362,12 @@ class MyGame(arcade.Window):
             # Add one to the score
             self.score += 1
 
+        # Check length of coin list. If it is zero, flip to the
+        # game over view.
+        if len(coin_hit_list) == 5:
+            view = YouWinView()
+            self.window.show_view(view)
+
         # See if we hit the switch
         switch_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene[LAYER_NAME_SWITCH]
@@ -297,9 +375,9 @@ class MyGame(arcade.Window):
 
         # Loop through each switch we hit (if any) and remove it
         for switch in switch_hit_list:
-            # Remove the coin
+            # Remove the switch
             switch.remove_from_sprite_lists()
-            # play the coin sound
+            # play the switch sound
             arcade.play_sound(self.collect_coin_sound)
             # Add one to the score
             self.score += 1
@@ -310,6 +388,10 @@ class MyGame(arcade.Window):
             self.player_sprite.center_y = PLAYER_START_Y
 
             arcade.play_sound(self.game_over)
+
+            view = GameOverView()
+            self.window.show_view(view)
+
 
         # Did the player touch something they should not?
         if arcade.check_for_collision_with_list(
@@ -322,6 +404,8 @@ class MyGame(arcade.Window):
 
             arcade.play_sound(self.game_over)
 
+            view = GameOverView()
+            self.window.show_view(view)
 
 # uncomment these lines when ready to add more levels
         # # See if the user got to the end of the level
@@ -344,10 +428,19 @@ class MyGame(arcade.Window):
         self.camera_gui.resize(int(width), int(height))
 
 
+# def main():
+#     """Main function"""
+#     window = MyGame()
+#     window.setup()
+#     arcade.run()
+
 def main():
-    """Main function"""
-    window = MyGame()
-    window.setup()
+    """ Main function """
+
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    start_view = InstructionView()
+    window.show_view(start_view)
+    # start_view.setup()
     arcade.run()
 
 
