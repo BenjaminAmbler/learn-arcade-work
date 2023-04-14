@@ -17,12 +17,12 @@ import os
 import arcade
 
 # --- Constants
-SCREEN_WIDTH = 1300
-SCREEN_HEIGHT = 700
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Mushroom Collection Platformer"
 
 # Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 0.5
+CHARACTER_SCALING = 0.75
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 128
@@ -35,7 +35,7 @@ PLAYER_JUMP_SPEED = 30
 
 # Player starting position
 PLAYER_START_X = 64
-PLAYER_START_Y = 225
+PLAYER_START_Y = 3000
 
 # Layer Names from our TileMap
 LAYER_NAME_MOVING_PLATFORMS = "Moving Platforms"
@@ -48,14 +48,15 @@ LAYER_NAME_DONT_TOUCH = "Don't Touch"
 LAYER_NAME_DOOR = "Door"
 LAYER_NAME_SWITCH = "Switch"
 
+
 class InstructionView(arcade.View):
     def on_show_view(self):
         """ This is run once when we switch to this view """
         arcade.set_background_color(arcade.csscolor.BLACK)
 
-        # Reset the viewport, necessary if we have a scrolling game and we need
-        # to reset the viewport back to the start so we can see what we draw.
-        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        # # Reset the viewport, necessary if we have a scrolling game and we need
+        # # to reset the viewport back to the start so we can see what we draw.
+        # arcade.set_viewport(0, self.window.width, 0, self.window.height)
 
     def on_draw(self):
         """ Draw this view """
@@ -64,20 +65,20 @@ class InstructionView(arcade.View):
                          self.window.width / 2, self.window.height / 2,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
         arcade.draw_text("Click any mouse button to start",
-                         self.window.width / 2, self.window.height / 3,
+                         self.window.width / 2, self.window.height / 4,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
         arcade.draw_text("Use the WASD or Arrow keys to move", self.window.width / 2, self.window.height / 2 - 75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
         # respond to a mouse click
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ If the user presses the mouse button, start the game. """
+        """ If the user presses any mouse button, start the game. """
         game_view = GameView()
         game_view.setup()
         self.window.show_view(game_view)
 
 class GameOverView(arcade.View):
-    """ View to show when game is over """
+    """ View or screen to show when game is over """
 
     def on_show_view(self):
         """ This is run once when we switch to this view """
@@ -85,7 +86,7 @@ class GameOverView(arcade.View):
 
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
-        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        #arcade.set_viewport(0, self.window.width, 0, self.window.height)
 
     def on_draw(self):
         """ Draw this view """
@@ -96,8 +97,7 @@ class GameOverView(arcade.View):
         arcade.draw_text("Click any mouse button to restart", self.window.width / 2, self.window.height / 2 - 75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
-        # respond to a mouse click
-
+        # respond to any mouse button click
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         """ If the user presses the mouse button, start the game. """
         game_view = GameView()
@@ -106,19 +106,19 @@ class GameOverView(arcade.View):
 
 class YouWinView(arcade.View):
     def on_show_view(self):
-        """ This is run once when we switch to this view """
+        """ This is run for when you win the game """
         arcade.set_background_color(arcade.csscolor.BLACK)
 
-        # Reset the viewport, necessary if we have a scrolling game and we need
-        # to reset the viewport back to the start so we can see what we draw.
-        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+        # # Reset the viewport, necessary if we have a scrolling game and we need
+        # # to reset the viewport back to the start so we can see what we draw.
+        # arcade.set_viewport(0, self.window.width, 0, self.window.height)
 
     def on_draw(self):
         """ Draw this view """
         self.clear()
         arcade.draw_text("You Win!", self.window.width / 2, self.window.height / 2,
                          arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to play again", self.window.width / 2, self.window.height / 2 - 75,
+        arcade.draw_text("Click any mouse button to play again", self.window.width / 2, self.window.height / 2 - 75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
         # respond to a mouse click
@@ -142,6 +142,12 @@ class GameView(arcade.View):
         #super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT,
         #                 SCREEN_TITLE, resizable=True)
         super().__init__()
+
+        # Load the song when the application starts
+        # self.explosion_sound = arcade.load_sound(":resources:music/1918.mp3")
+        # self.explosion_sound_player = None
+        # if not self.explosion_sound_player or not self.explosion_sound_player.playing:
+        #     self.explosion_sound_player = arcade.play_sound(self.explosion_sound)
 
         # Set the path to start with this program
         file_path = os.path.dirname(os.path.abspath(__file__))
@@ -183,9 +189,9 @@ class GameView(arcade.View):
         self.right_key_down = False
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-        self.game_over = arcade.load_sound(":resources:sounds/gameover1.wav")
+        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin2.wav")
+        self.jump_sound = arcade.load_sound(":resources:sounds/jump2.wav")
+        self.game_over = arcade.load_sound(":resources:sounds/gameover2.wav")
         # self.shoot_sound = arcade.load_sound(":resources:sounds/hurt5.wav")
         # self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
 
