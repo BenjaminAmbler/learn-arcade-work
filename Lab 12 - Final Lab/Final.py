@@ -22,20 +22,20 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Mushroom Collection Platformer"
 
 # Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 0.75
-TILE_SCALING = 0.5
-COIN_SCALING = 0.5
+CHARACTER_SCALING = 0.25
+TILE_SCALING = 0.25
+COIN_SCALING = 0.25
 SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 7
+PLAYER_MOVEMENT_SPEED = 5
 GRAVITY = 1
-PLAYER_JUMP_SPEED = 30
+PLAYER_JUMP_SPEED = 25
 
 # Player starting position
-PLAYER_START_X = 64
-PLAYER_START_Y = 3000
+PLAYER_START_X = 70
+PLAYER_START_Y = 1500
 
 # Layer Names from our TileMap
 LAYER_NAME_MOVING_PLATFORMS = "Moving Platforms"
@@ -195,7 +195,7 @@ class GameView(arcade.View):
         # self.shoot_sound = arcade.load_sound(":resources:sounds/hurt5.wav")
         # self.hit_sound = arcade.load_sound(":resources:sounds/hit5.wav")
 
-        arcade.set_background_color(arcade.color.MEDIUM_SKY_BLUE)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         """Set up the game here. Call this function to restart the game."""
@@ -389,7 +389,7 @@ class GameView(arcade.View):
 
         # Check length of coin list. If it is zero, flip to the
         # game over view.
-        if (self.score) == 12:
+        if (self.score) == 13:
             view = YouWinView()
             self.window.show_view(view)
 
