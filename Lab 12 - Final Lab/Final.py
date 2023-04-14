@@ -1,14 +1,25 @@
 """
-Ben's Platformer
+Mushroom Collection
+Platformer Game
+
+
+TO DO:
+
+Add background music
+
+Add comments for each section for easier grading
+
+Make map bigger and more fun
+
 """
 # import math
 import os
 import arcade
 
 # --- Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Ben's First Platformer"
+SCREEN_WIDTH = 1300
+SCREEN_HEIGHT = 700
+SCREEN_TITLE = "Mushroom Collection Platformer"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 0.5
@@ -52,7 +63,10 @@ class InstructionView(arcade.View):
         arcade.draw_text("Instructions: gather all of the mushrooms",
                          self.window.width / 2, self.window.height / 2,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
-        arcade.draw_text("Click any mouse button to start", self.window.width / 2, self.window.height / 2 - 75,
+        arcade.draw_text("Click any mouse button to start",
+                         self.window.width / 2, self.window.height / 3,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        arcade.draw_text("Use the WASD or Arrow keys to move", self.window.width / 2, self.window.height / 2 - 75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
         # respond to a mouse click
@@ -442,7 +456,7 @@ class GameView(arcade.View):
 def main():
     """ Main function """
 
-    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=True)
     start_view = InstructionView()
     window.show_view(start_view)
     # start_view.setup()
