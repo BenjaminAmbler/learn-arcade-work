@@ -307,7 +307,7 @@ class GameView(arcade.View):
             score_text,
             10,
             SCREEN_HEIGHT - 25,
-            arcade.csscolor.BLACK,
+            arcade.csscolor.WHITE,
             18,
         )
 
