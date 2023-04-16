@@ -116,8 +116,8 @@ class YouWinView(arcade.View):
     def on_draw(self):
         """ Draw this view """
         self.clear()
-        arcade.draw_text("You Win!", self.window.width / 2, self.window.height / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_text("You Win! You got all of the mushrooms!", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=30, anchor_x="center")
         arcade.draw_text("Click any mouse button to play again", self.window.width / 2, self.window.height / 2 - 75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
@@ -389,7 +389,7 @@ class GameView(arcade.View):
 
         # Check length of coin list. If it is zero, flip to the
         # game over view.
-        if (self.score) == 13:
+        if (self.score) == 17:
             view = YouWinView()
             self.window.show_view(view)
 
